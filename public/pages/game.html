@@ -1,0 +1,211 @@
+<div class="min-h-screen bg-gradient-to-tr from-[#010307] via-[#010307] to-[#0d0f15] bg-[#1f0329] bg-black animate-gradient">
+  <!-- Header -->
+  <div class="w-full bg-black/30 border-b border-gray-700/30 px-2 sm:px-4 py-3">
+    <div class="max-w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 relative">
+      <!-- Game State + Start Button -->
+      <div class="flex items-center gap-3 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start">
+        <button type="button" class="start-action bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 font-medium text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-purple-500/20">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Start
+        </button>
+        <div class="relative state text-sm sm:text-base font-medium text-gray-300 px-2 sm:px-4 py-1.5 flex items-center gap-2">
+          <span class="absolute right-32 size-2 rounded-full bg-red-500 z-50 animate-pulse"></span>
+        </div>
+      </div>
+
+      <!-- User Zone -->
+      <div class="flex items-center gap-4 w-full sm:w-auto justify-center sm:justify-start">
+        <input type="text" id="pseudo" placeholder="Pseudo" class="bg-slate-800/50 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-40 sm:w-50" />
+        <label class="cursor-pointer">
+          <input type="file" id="avatar" accept="image/png, image/jpeg, image/jpg, image/gif" class="hidden" />
+          <img id="playerAvatar" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full outline-none object-cover border-2 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 transform hover:scale-105" alt="Avatar du joueur" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex flex-col lg:flex-row h-[calc(100vh-4rem)] gap-4 w-full mx-auto p-2 sm:p-4">
+    <!-- Main Game Area -->
+    <div class="flex-1 relative">
+      <div class="mode"></div>
+
+      <!-- Timer and Speed -->
+      <div class="absolute top-0 left-1/2 transform -translate-x-1/2 mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-4 hidden">
+        <div class="text-white text-base sm:text-xl flex items-center gap-2 bg-black/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full backdrop-blur-sm border-b border-gray-700/30">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div class="displayTime">00:00</div>
+        </div>
+
+        <div class="text-white text-base sm:text-xl flex items-center gap-2 bg-black/20 px-4 sm:px-6 py-2 sm:py-3 rounded-full backdrop-blur-sm border-b border-gray-700/30">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <div class="displaySpeed">0 Speed</div>
+        </div>
+      </div>
+
+      <!-- Score Table -->
+      <table class="w-40 sm:w-48 md:w-64 absolute left-0 hidden top-0 mt-20 ml-2 sm:ml-4 rounded-lg overflow-hidden border text-slate-400 text-sm sm:text-base md:text-xl bg-black/20 border-slate-400 shadow-lg">
+        <tbody class="divide-y divide-gray-700/30">
+          <tr>
+            <th class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24">Correct</th>
+            <td class="text-sm sm:text-base md:text-xl text-green-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3 displayCorrectWord"></td>
+          </tr>
+          <tr>
+            <th class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24">Fail</th>
+            <td class="text-sm sm:text-base md:text-xl text-red-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3 displayFailWord"></td>
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="rules bg-black/20 rounded-lg p-4 sm:p-8 backdrop-blur-sm w-full mx-auto">
+        <h3 class="text-purple-400 font-semibold mb-4 sm:mb-6 text-sm sm:text-base flex items-center gap-2 justify-center">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          Règles du jeu
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-6xl mx-auto">
+          <div class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 01</span>
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Vous devez résoudre l'énigme en trouvant le mot correct dans la liste.
+            </p>
+          </div>
+
+          <div class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 02</span>
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Vous avez un temps limité pour trouver le mot.
+            </p>
+          </div>
+
+          <div class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 03</span>
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Si vous ne trouvez pas le mot, vous perdez une vie.
+            </p>
+          </div>
+
+          <div class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-purple-500/10 hover:border-purple-500/30 transition-colors">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 04</span>
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Si vous trouvez 5 mots successifs, vous gagnez une vie.
+            </p>
+          </div>
+
+          <div class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-purple-500/10 hover:border-purple-500/30 transition-colors col-span-1 sm:col-span-2">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 05</span>
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Le gagnant est le dernier survivant.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Players -->
+      <div class="mx-auto w-full flex justify-center items-center relative top-6 sm:top-10">
+        <div class="players relative"></div>
+        <div class="find-entity absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+
+      <!-- Input -->
+      <div class="text-center w-full fixed sm:absolute bottom-4 sm:bottom-36 left-1/2 transform -translate-x-1/2 px-2 sm:px-0">
+        <div class="relative inline-block w-full sm:w-11/12 md:w-9/12 lg:w-7/12">
+          <input id="write" hidden type="text" class="write uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500" placeholder="Tapez votre message..." maxlength="100" />
+          <div class="absolute letter-count right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300">
+            0
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="params" class="w-full lg:w-96 mt-4 bg-black/30 rounded-2xl shadow-xl border border-[#202225]/50 backdrop-blur-sm h-fit p-2">
+      <div class="px-4 py-3 border-b border-[#40444b]/50">
+        <h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-200 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
+          </svg>
+          Paramètres
+        </h2>
+      </div>
+
+      <div class="p-4 space-y-2">
+        <!-- Mode -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="mode-select">🎮 Mode</label>
+          <select id="mode-select" class="mode-select w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded">
+            <option selected value="code-http">code-http</option>
+            <option value="english">english</option>
+          </select>
+        </div>
+
+        <!-- Turn Time -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300">⏱️ Temps de tour</label>
+          <div class="flex items-center gap-3">
+            <input class="turn-time-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none" type="text" id="turn-time-input" aria-label="Temps de tour" placeholder="10" value="10" />
+            <input class="turn-time-range flex-1 accent-purple-600 h-1" type="range" id="turn-time-range" aria-label="Temps de tour" placeholder="10" />
+          </div>
+        </div>
+
+        <!-- Min Hearts -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="min-heart-input">❤️ Vies minimum</label>
+          <div class="flex items-center gap-3">
+            <input class="min-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-[#202225] focus:ring-1 focus:border-transparent transition-all outline-none" type="text" id="min-heart-input" name="min-heart" min="1" max="10" value="3" />
+            <input class="min-heart-range flex-1 accent-purple-600 h-1" type="range" id="min-heart-range" name="min-heart-range" min="1" max="10" value="3" aria-label="Minimum heart range" />
+          </div>
+        </div>
+
+        <!-- Max Hearts -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="max-heart-input">❤️ Vies maximum</label>
+          <div class="flex items-center gap-3">
+            <input class="max-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-[#202225] transition-all outline-none" type="text" id="max-heart-input" name="max-heart" min="0" max="10" value="3" />
+            <input class="max-heart-range flex-1 accent-purple-600 h-1" type="range" id="max-heart-range" name="max-heart-range" min="3" max="10" value="3" aria-label="Maximum heart range" />
+          </div>
+        </div>
+
+        <!-- Bots -->
+        <div class="space-y-1.5">
+          <label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300">🤖 Bots</label>
+          <div class="flex items-center gap-3">
+            <input class="bot-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-[#202225] focus:border-transparent transition-all outline-none" type="text" id="bot-input" min="0" value="0" max="15" aria-label="Number of bots" />
+            <input class="bot-range flex-1 accent-purple-600 h-1" type="range" id="bot-range" min="1" max="15" value="0" aria-label="Number of bots range" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rules Button -->
+  <button title="Règles du jeu" class="open-rules fixed bottom-4 right-4 bg-black/20 hover:bg-black/30 p-2 sm:p-2.5 rounded-full backdrop-blur-sm border border-purple-500/10 hover:border-purple-500/30 transition-all duration-300 group z-50">
+    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400/70 group-hover:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+  </button>
+</div>
