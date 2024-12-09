@@ -13,7 +13,6 @@ export default function start(
   startAction.innerHTML = STATE.END;
 
   // Initialisation du mode de jeu
-
   game.initializeFactory(game.getMode || "code-http");
   game.gameSound.playSound("gameJoin", 0.1);
 
@@ -22,5 +21,5 @@ export default function start(
   if (entityElement && game.puzzle.request) {
     entityElement.innerHTML = game.puzzle.request;
   }
-  console.log(game);
+
 }

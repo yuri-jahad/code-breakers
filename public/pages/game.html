@@ -1,11 +1,11 @@
 <div
-	class="min-h-screen bg-gradient-to-tr from-[#010307] via-[#010307] to-[#0d0f15] bg-[#1f0329] bg-black animate-gradient"
+	class="flex flex-col min-h-screen bg-gradient-to-tr from-[#010307] via-[#010307] to-[#0d0f15] bg-[#1f0329] bg-black animate-gradient"
 >
 	<!-- Header -->
 	<div class="w-full bg-black/30 border-b border-white/5 px-2 sm:px-4 py-3">
 		<div
 			class="max-w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 relative"
-			>
+		>
 			<!-- Game State + Start Button -->
 			<div
 				class="flex items-center gap-3 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start"
@@ -67,14 +67,16 @@
 
 	<!-- Main Content -->
 	<div
-		class="flex flex-col lg:flex-row h-[calc(100vh-4rem)] gap-4 w-full mx-auto p-2 sm:p-4"
+		class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto p-2 sm:p-4"
 	>
 		<!-- Main Game Area -->
 		<div class="flex-1 relative">
 			<div class="mode"></div>
 
 			<!-- Score Table with Timer and Speed -->
-			<div class="infos-player hidden flex-col absolute left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2">
+			<div
+				class="infos-player hidden flex-col absolute left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2"
+			>
 				<!-- Timer and Speed -->
 				<div class="flex flex-col w-40 sm:w-48 md:w-64 space-y-2">
 					<div
@@ -94,7 +96,9 @@
 							></path>
 						</svg>
 						<div class="displayTime">00:00</div>
-						<div class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-purple-500/40 animate-infinite-slide"></div>
+						<div
+							class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-purple-500/40 animate-infinite-slide"
+						></div>
 					</div>
 
 					<div
@@ -114,7 +118,9 @@
 							></path>
 						</svg>
 						<div class="displaySpeed">0 Speed</div>
-						<div class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-blue-500/40 animate-infinite-slide"></div>
+						<div
+							class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-blue-500/40 animate-infinite-slide"
+						></div>
 					</div>
 				</div>
 
@@ -192,7 +198,7 @@
 							<span
 								class="text-purple-400/70 font-semibold text-base sm:text-xl"
 								>Règle 02</span
-								>
+							>
 							<div class="h-px flex-1 bg-purple-500/10"></div>
 						</div>
 						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">
@@ -262,21 +268,63 @@
 				class="text-center w-full fixed sm:absolute bottom-1 sm:bottom-20 left-1/2 transform -translate-x-1/2 px-2 sm:px-0"
 			>
 				<div
-					class="relative inline-block w-full sm:w-11/12 md:w-9/12 lg:w-7/12"
+					class="relative write-container mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
 				>
 					<input
 						id="write"
-						hidden
 						type="text"
 						class="write uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500"
 						placeholder="Tapez votre message..."
 						maxlength="100"
 					/>
-					<div
+					<span
 						class="absolute letter-count right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300"
 					>
 						0
-					</div>
+					</span>
+				</div>
+			</div>
+		</div>
+
+
+		<!--chat -->
+		<div class="chat h-[600px] lg:h-auto relative lg:relative lg:mt-4 w-full lg:w-3/12 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm flex flex-col">
+			<!-- Chat Header -->
+			<div class="px-4 py-3 border-b border-white/5">
+				<h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-200 flex items-center gap-2">
+					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+						<path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+					</svg>
+					Chat
+					<span class="text-xs text-purple-400/70 ml-auto">0 joueurs</span>
+				</h2>
+			</div>
+
+			<!-- Chat Messages -->
+			<div class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-500/20 scrollbar-track-transparent">
+				<div class="messages-container">
+					<!-- Les messages seront injectés ici dynamiquement -->
+				</div>
+			</div>
+
+			<!-- Chat Input -->
+			<div class="p-3 border-t border-white/5">
+				<div class="relative">
+					<input 
+						type="text" 
+						class="w-full bg-slate-800/50 text-gray-200 px-4 py-2 rounded-lg pr-12
+							   border border-white/10 focus:border-purple-500/30 
+							   placeholder-gray-500 text-sm
+							   transition-all duration-300 outline-none"
+						placeholder="Tapez votre message..." 
+					/>
+					<button class="absolute right-2 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+								  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+						</svg>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -284,7 +332,7 @@
 		<!-- Settings Panel -->
 		<div
 			id="params"
-			class="w-full lg:w-96 mt-4 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm h-fit p-2"
+			class="w-full absolute hidden right-4 lg:w-96 mt-4 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm h-fit p-2"
 		>
 			<div class="px-4 py-3 border-b border-white/5">
 				<h2
@@ -435,7 +483,7 @@
 	</div>
 
 	<!-- Rules Button -->
-	<button
+	<!-- <button
 		title="Règles du jeu"
 		class="open-rules fixed bottom-4 right-4 bg-black/20 hover:bg-black/30 p-2 sm:p-2.5 rounded-full backdrop-blur-sm border border-white/10 hover:border-purple-500/20 transition-all duration-300 group z-50"
 	>
@@ -452,5 +500,5 @@
 				d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 			></path>
 		</svg>
-	</button>
+	</button> -->
 </div>
