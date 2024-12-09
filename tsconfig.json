@@ -25,5 +25,5 @@
     "noUncheckedSideEffectImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "getUser.ts", "src/features/profile/profile.user.ts"]
+  "include": ["src", "getUser.ts", "src/features/profile/profile-user.ts"]
 }

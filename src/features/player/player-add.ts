@@ -4,7 +4,7 @@ import { circle } from "@/utils/circle";
 import Players from "@/core/player/players.game";
 import UserProfile from "@/core/user/user.profile";
 import BotProfile from "@/core/bot/bot.profile";
-import playerView from "@/features/player/player.view";
+import playerView from "@/features/player/player-view";
 
 export const addPlayers = (count: number, game: GameInterface) => {
     const playerselement: HTMLElement | null = document.querySelector(".players");

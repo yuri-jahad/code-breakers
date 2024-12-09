@@ -3,15 +3,15 @@ import type { ProfileStats } from "@/types/profile/profile.type";
 
 import { IntervalType } from "@/types/game/game.turn.type";
 import { STATE } from "@/game";
-import { displayScore } from "@/features/score/score.display";
-import { displaySpeed } from "@/features/speed/speed.display";
-import { displayTimeGame } from "@/features/time/time.display";
-import { isGameWin } from "@/features/game/game.win";
-import { getPlayer } from "@/features/player/player.get";
-import { removeLife } from "@/features/heart/heart.delete";
+import { displayScore } from "@/features/score/score-display";
+import { displaySpeed } from "@/features/speed/speed-display";
+import { displayTimeGame } from "@/features/time/time-display";
+import { isGameWin } from "@/features/game/game-win";
+import { getPlayer } from "@/features/player/player-get";
+import { removeLife } from "@/features/heart/heart-delete";
 import stateEnd from "@/states/end";
-import { updateScore } from "@/features/score/score.update";
-import { data } from "@/modes/modes.factory";
+import { updateScore } from "@/features/score/score-update";
+import { data } from "@/modes/modes-factory";
 import { animateTextTyping } from "@/utils/animationTextTyping";
 
 export default function game(

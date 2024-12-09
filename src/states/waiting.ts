@@ -2,7 +2,7 @@ import { stateElement } from "./../utils/selector";
 import type { GameInterface } from "@/types/game/game.type";
 
 import { STATE } from "@/game";
-import { addPlayers } from "@/features/player/player.add";
+import { addPlayers } from "@/features/player/player-add";
 import { IntervalType } from "@/types/game/game.turn.type";
 
 type WaitingInterval = ReturnType<typeof setInterval>;
@@ -37,7 +37,7 @@ function initializeWaitingState(
 	const table: HTMLElement | null = document.querySelector("table");
 	const infosPlayer: HTMLElement | null =
 		document.querySelector(".infos-player");
-    
+
 	if (!rules || !infosPlayer || !rules || !table) return;
 	rules.style.display = "none";
 	infosPlayer.classList.remove("hidden");

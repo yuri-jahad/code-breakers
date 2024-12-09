@@ -1,16 +1,16 @@
 import { IntervalId, IntervalType } from "@/types/game/game.turn.type";
 import { Game } from "@/core/game/game";
-import { GameFactory } from "@/modes/modes.factory";
+import { GameFactory } from "@/modes/modes-factory";
 import stateInactive from "@/states/inactive";
 import stateStart from "@/states/start";
 import stateWaiting from "@/states/waiting";
 import stateGame from "@/states/game";
 import stateEnd from "@/states/end";
-import { displaySpeed } from "@/features/speed/speed.display";
-import { isGameWin } from "@/features/game/game.win";
-import { getPlayer } from "@/features/player/player.get";
-import { updateScore } from "@/features/score/score.update";
-import handleUserRegistration from "@/features/profile/profile.user";
+import { displaySpeed } from "@/features/speed/speed-display";
+import { isGameWin } from "@/features/game/game-win";
+import { getPlayer } from "@/features/player/player-get";
+import { updateScore } from "@/features/score/score-update";
+import handleUserRegistration from "@/features/profile/profile-user";
 import UserStorage from "@/core/user/user.storage";
 
 export const STATE = {
