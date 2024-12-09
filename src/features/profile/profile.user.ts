@@ -36,6 +36,7 @@ export default async function handleUserRegistration() {
 				console.log(imageDataUrl, "imageDataUrl");
 				playerAvatar.src = imageDataUrl;
 				UserStorage.saveUserInfo({ pseudo, avatar: imageDataUrl });
+				UserProfile.setProfile({ pseudo, avatar: imageDataUrl });
 			};
 			reader.readAsDataURL(avatarElement.files[0]);
 		}
