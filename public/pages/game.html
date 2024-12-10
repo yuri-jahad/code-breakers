@@ -42,12 +42,14 @@
 			<div
 				class="flex items-center gap-4 w-full sm:w-auto justify-center sm:justify-start"
 			>
-				<input
-					type="text"
-					id="pseudo"
-					placeholder="Pseudo"
-					class="bg-slate-800/50 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-80 sm:w-96"
-				/>
+				<div class="flex items-center">
+					<input
+						type="text"
+						id="pseudo"
+						placeholder="Pseudo"
+						class="bg-slate-800/50 right-0 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-60 sm:w-60"
+					/>
+				</div>
 				<label class="cursor-pointer">
 					<input
 						type="file"
@@ -66,9 +68,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div
-		class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto p-2 sm:p-4"
-	>
+	<div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto p-2 sm:p-4">
 		<!-- Main Game Area -->
 		<div class="flex-1 relative">
 			<div class="mode"></div>
@@ -257,7 +257,7 @@
 			<div
 				class="mx-auto w-full flex justify-center items-center relative top-6 sm:top-10"
 			>
-				<div class="players relative"></div>
+				<canvas class="players relative"></canvas>
 				<div
 					class="find-entity absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
 				></div>
@@ -286,219 +286,217 @@
 			</div>
 		</div>
 
-
 		<!--chat -->
-		<div class="chat h-[600px] lg:h-auto relative lg:relative lg:mt-4 w-full lg:w-3/12 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm flex flex-col">
-			<!-- Chat Header -->
-			<div class="px-4 py-3 border-b border-white/5">
-				<h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-200 flex items-center gap-2">
-					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
-						<path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+		<div
+			class="chat h-[600px] lg:h-auto relative lg:relative lg:mt-4 w-full lg:w-3/12 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm flex flex-col"
+		>
+			<!-- Menu de navigation -->
+			<div class="flex gap-1 p-2 border-b border-white/5">
+				<button
+					class="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-all duration-300"
+				>
+					<svg
+						class="w-4 h-4"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+						/>
 					</svg>
-					Chat
-					<span class="text-xs text-purple-400/70 ml-auto">0 joueurs</span>
-				</h2>
+					<span class="text-sm">Paramètres</span>
+				</button>
+				<button
+					class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
+				>
+					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+						<path
+							d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"
+						/>
+						<path
+							d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
+						/>
+					</svg>
+					<span class="text-sm">Chat</span>
+				</button>
 			</div>
 
-			<!-- Chat Messages -->
-			<div class="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-500/20 scrollbar-track-transparent">
-				<div class="messages-container">
-					<!-- Les messages seront injectés ici dynamiquement -->
+			<!-- Chat Header -->
+
+			<div class="content w-full h-full relative">
+				<div class="chat hidden w-full h-[100%]">
+					<!-- Chat Input -->
+					<div
+						class="messages-container h-[90%] w-full border-t border-white/5"
+					></div>
+
+					<div class="typing-message-container h-[10%] relative">
+						<input
+							type="text"
+							class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0 pr-12 border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
+							placeholder="Tapez votre message..."
+						/>
+						<button
+							class="absolute right-5 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors"
+						>
+							<svg
+								class="w-5 h-5"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+								/>
+							</svg>
+						</button>
+					</div>
 				</div>
-			</div>
+				<div
+					id="params"
+					class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
+				>
+					<div class="p-4 space-y-2">
+						<!-- Mode -->
+						<div class="space-y-1.5">
+							<label
+								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+								for="mode-select"
+								>🎮 Mode</label
+							>
+							<select
+								id="mode-select"
+								class="mode-select w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
+							>
+								<option selected value="code-http">code-http</option>
+								<option value="english">english</option>
+							</select>
+						</div>
 
-			<!-- Chat Input -->
-			<div class="p-3 border-t border-white/5">
-				<div class="relative">
-					<input 
-						type="text" 
-						class="w-full bg-slate-800/50 text-gray-200 px-4 py-2 rounded-lg pr-12
-							   border border-white/10 focus:border-purple-500/30 
-							   placeholder-gray-500 text-sm
-							   transition-all duration-300 outline-none"
-						placeholder="Tapez votre message..." 
-					/>
-					<button class="absolute right-2 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors">
-						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-								  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-						</svg>
-					</button>
+						<!-- Turn Time -->
+						<div class="space-y-1.5">
+							<label
+								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+								>⏱️ Temps de tour</label
+							>
+							<div class="flex items-center gap-3">
+								<input
+									class="turn-time-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
+									type="text"
+									id="turn-time-input"
+									aria-label="Temps de tour"
+									placeholder="10"
+									value="10"
+								/>
+								<input
+									class="turn-time-range flex-1 accent-purple-600 h-1"
+									type="range"
+									id="turn-time-range"
+									aria-label="Temps de tour"
+									placeholder="10"
+								/>
+							</div>
+						</div>
+
+						<!-- Min Hearts -->
+						<div class="space-y-1.5">
+							<label
+								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+								for="min-heart-input"
+								>❤️ Vies minimum</label
+							>
+							<div class="flex items-center gap-3">
+								<input
+									class="min-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-purple-500/20 transition-all outline-none"
+									type="text"
+									id="min-heart-input"
+									name="min-heart"
+									min="1"
+									max="10"
+									value="3"
+								/>
+								<input
+									class="min-heart-range flex-1 accent-purple-600 h-1"
+									type="range"
+									id="min-heart-range"
+									name="min-heart-range"
+									min="1"
+									max="10"
+									value="3"
+									aria-label="Minimum heart range"
+								/>
+							</div>
+						</div>
+
+						<!-- Max Hearts -->
+						<div class="space-y-1.5">
+							<label
+								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+								for="max-heart-input"
+								>❤️ Vies maximum</label
+							>
+							<div class="flex items-center gap-3">
+								<input
+									class="max-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 transition-all outline-none"
+									type="text"
+									id="max-heart-input"
+									name="max-heart"
+									min="0"
+									max="10"
+									value="3"
+								/>
+								<input
+									class="max-heart-range flex-1 accent-purple-600 h-1"
+									type="range"
+									id="max-heart-range"
+									name="max-heart-range"
+									min="3"
+									max="10"
+									value="3"
+									aria-label="Maximum heart range"
+								/>
+							</div>
+						</div>
+
+						<!-- Bots -->
+						<div class="space-y-1.5">
+							<label
+								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+								>🤖 Bots</label
+							>
+							<div class="flex items-center gap-3">
+								<input
+									class="bot-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
+									type="text"
+									id="bot-input"
+									min="0"
+									value="0"
+									max="15"
+									aria-label="Number of bots"
+								/>
+								<input
+									class="bot-range flex-1 accent-purple-600 h-1"
+									type="range"
+									id="bot-range"
+									min="1"
+									max="15"
+									value="0"
+									aria-label="Number of bots range"
+								/>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Settings Panel -->
-		<div
-			id="params"
-			class="w-full absolute hidden right-4 lg:w-96 mt-4 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm h-fit p-2"
-		>
-			<div class="px-4 py-3 border-b border-white/5">
-				<h2
-					class="text-base sm:text-lg md:text-xl font-semibold text-gray-200 flex items-center gap-2"
-				>
-					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-						<path
-							fill-rule="evenodd"
-							d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
-							clip-rule="evenodd"
-						/>
-					</svg>
-					Paramètres
-				</h2>
-			</div>
-
-			<div class="p-4 space-y-2">
-				<!-- Mode -->
-				<div class="space-y-1.5">
-					<label
-						class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-						for="mode-select"
-						>🎮 Mode</label
-					>
-					<select
-						id="mode-select"
-						class="mode-select w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
-					>
-						<option selected value="code-http">code-http</option>
-						<option value="english">english</option>
-					</select>
-				</div>
-
-				<!-- Turn Time -->
-				<div class="space-y-1.5">
-					<label
-						class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-						>⏱️ Temps de tour</label
-					>
-					<div class="flex items-center gap-3">
-						<input
-							class="turn-time-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
-							type="text"
-							id="turn-time-input"
-							aria-label="Temps de tour"
-							placeholder="10"
-							value="10"
-						/>
-						<input
-							class="turn-time-range flex-1 accent-purple-600 h-1"
-							type="range"
-							id="turn-time-range"
-							aria-label="Temps de tour"
-							placeholder="10"
-						/>
-					</div>
-				</div>
-
-				<!-- Min Hearts -->
-				<div class="space-y-1.5">
-					<label
-						class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-						for="min-heart-input"
-						>❤️ Vies minimum</label
-					>
-					<div class="flex items-center gap-3">
-						<input
-							class="min-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-purple-500/20 transition-all outline-none"
-							type="text"
-							id="min-heart-input"
-							name="min-heart"
-							min="1"
-							max="10"
-							value="3"
-						/>
-						<input
-							class="min-heart-range flex-1 accent-purple-600 h-1"
-							type="range"
-							id="min-heart-range"
-							name="min-heart-range"
-							min="1"
-							max="10"
-							value="3"
-							aria-label="Minimum heart range"
-						/>
-					</div>
-				</div>
-
-				<!-- Max Hearts -->
-				<div class="space-y-1.5">
-					<label
-						class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-						for="max-heart-input"
-						>❤️ Vies maximum</label
-					>
-					<div class="flex items-center gap-3">
-						<input
-							class="max-heart-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 transition-all outline-none"
-							type="text"
-							id="max-heart-input"
-							name="max-heart"
-							min="0"
-							max="10"
-							value="3"
-						/>
-						<input
-							class="max-heart-range flex-1 accent-purple-600 h-1"
-							type="range"
-							id="max-heart-range"
-							name="max-heart-range"
-							min="3"
-							max="10"
-							value="3"
-							aria-label="Maximum heart range"
-						/>
-					</div>
-				</div>
-
-				<!-- Bots -->
-				<div class="space-y-1.5">
-					<label
-						class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-						>🤖 Bots</label
-					>
-					<div class="flex items-center gap-3">
-						<input
-							class="bot-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
-							type="text"
-							id="bot-input"
-							min="0"
-							value="0"
-							max="15"
-							aria-label="Number of bots"
-						/>
-						<input
-							class="bot-range flex-1 accent-purple-600 h-1"
-							type="range"
-							id="bot-range"
-							min="1"
-							max="15"
-							value="0"
-							aria-label="Number of bots range"
-						/>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
-
-	<!-- Rules Button -->
-	<!-- <button
-		title="Règles du jeu"
-		class="open-rules fixed bottom-4 right-4 bg-black/20 hover:bg-black/30 p-2 sm:p-2.5 rounded-full backdrop-blur-sm border border-white/10 hover:border-purple-500/20 transition-all duration-300 group z-50"
-	>
-		<svg
-			class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400/70 group-hover:text-purple-400"
-			fill="none"
-			stroke="currentColor"
-			viewBox="0 0 24 24"
-		>
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-			></path>
-		</svg>
-	</button> -->
 </div>

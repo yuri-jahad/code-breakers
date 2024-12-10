@@ -8,7 +8,7 @@ import type {
 import type { GameModeInterface } from "@/core/game/game.modes";
 import type { PuzzleType } from "@/types/data.type";
 
-import datas from "@/data/loader/loader.data";
+import datas from "@/data/loader/loader-data";
 import EnglishGame from "@/modes/modes-english";
 import HttpCodeGame from "@/modes/modes-http";
 

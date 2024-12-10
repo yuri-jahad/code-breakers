@@ -14,7 +14,7 @@ export default function start(
 
   // Initialisation du mode de jeu
   game.initializeFactory(game.getMode || "code-http");
-  game.gameSound.playSound("gameJoin", 0.1);
+  game.gameSound.playSound("gameJoined", 0.1);
 
   // Affichage de l'énigme
   const entityElement = document.querySelector(".find-entity");
