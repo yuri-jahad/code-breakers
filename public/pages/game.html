@@ -293,7 +293,7 @@
 			<!-- Menu de navigation -->
 			<div class="flex gap-1 p-2 border-b border-white/5">
 				<button
-					class="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-all duration-300"
+					class="sidebar-params-btn flex items-center bg-purple-500/10 text-gray-400 text-purple-400 gap-2 px-4 py-2 rounded-lg hover:bg-purple-500/20 transition-all duration-300"
 				>
 					<svg
 						class="w-4 h-4"
@@ -311,7 +311,7 @@
 					<span class="text-sm">Paramètres</span>
 				</button>
 				<button
-					class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
+					class="sidebar-chat-btn flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
 				>
 					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 						<path
@@ -327,8 +327,8 @@
 
 			<!-- Chat Header -->
 
-			<div class="content w-full h-full relative">
-				<div class="chat hidden w-full h-[100%]">
+			<div class="sidebar-content w-full h-full relative">
+				<div class="sidebar-chat hidden w-full h-[100%]">
 					<!-- Chat Input -->
 					<div
 						class="messages-container h-[90%] w-full border-t border-white/5"
@@ -361,7 +361,7 @@
 				</div>
 				<div
 					id="params"
-					class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
+					class="sidebar-params w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
 				>
 					<div class="p-4 space-y-2">
 						<!-- Mode -->

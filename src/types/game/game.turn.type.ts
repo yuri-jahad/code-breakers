@@ -1,4 +1,4 @@
-import { ParamsType } from "../../core/game/game.parameters";
+import { ParamsType } from "../../core/game/game-parameters";
 import { ProfileStats } from "../profile/profile.type";
 
 export type IntervalId = number | null;

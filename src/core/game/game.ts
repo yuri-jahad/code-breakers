@@ -3,7 +3,7 @@ import type { PuzzleType } from "@/types/data.type";
 import type { ProfileStats } from "@/types/profile/profile.type";
 import type { ModesNames } from "@/types/game/game.modes.type";
 import type { SoundController } from "@/types/game/game.sound.type";
-import Turn from "@/core/game/game.turn";
+import Turn from "@/core/game/game-turn";
 import { IntervalType } from "@/types/game/game.turn.type";
 import { GameFactoryInterface } from "@/modes/modes-factory";
 import GameSound from "../sound/sound.game";
