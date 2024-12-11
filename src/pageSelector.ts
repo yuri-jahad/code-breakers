@@ -1,4 +1,5 @@
-import { SelectorElementsType } from "./types";
+import { SelectorRenderType } from "./page-selector-type";
+import { SelectorElementsType, SelectorGlobalType } from "./types";
 
 export default class PageSelector {
 	public getSelector(selector: string, all: boolean = false) {
@@ -7,18 +8,22 @@ export default class PageSelector {
 			: document.querySelector(selector);
 	}
 
-	public setSelector(obj: Record<string, { selector: string; all?: boolean }>) {
+	public setSelector(obj: SelectorGlobalType): SelectorElementsType {
 		const selectors: SelectorElementsType = {};
-		Object.entries(obj).forEach(([key, value]) => {
-			if (value.all) {
-				selectors[key] = this.getSelector(
-					value.selector,
-					true
-				) as HTMLElement | null;
-			} else {
-				selectors[key] = this.getSelector(value.selector) as HTMLElement | null;
-			}
+
+		Object.entries(obj).forEach(([sectionKey, sectionValue]) => {
+			selectors[sectionKey] = Object.entries(sectionValue).reduce(
+				(acc, [elementKey, elementValue]) => ({
+					...acc,
+					[elementKey]: this.getSelector(
+						elementValue.selector,
+						elementValue.all ?? false
+					),
+				}),
+				{} as any
+			);
 		});
+
 		return selectors;
 	}
 }

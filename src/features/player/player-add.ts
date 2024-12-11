@@ -1,5 +1,5 @@
 import { PlayersInterface } from "@/core/player/players-game";
-import { GameInterface } from "@/types/game/game.type";
+import { GameInterface } from "@/types/game/game-type";
 import { circle } from "@/utils/circle";
 import Players from "@/core/player/players-game";
 import UserProfile from "@/core/user/user.profile";

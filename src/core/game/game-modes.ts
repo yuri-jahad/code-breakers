@@ -1,4 +1,4 @@
-import type { PuzzleType } from "@/types/data.type";
+import type { PuzzleType } from "@/types/data-type";
 
 export interface GameModeInterface<T, E> {
   generate: () => E | null;

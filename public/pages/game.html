@@ -12,7 +12,8 @@
 			>
 				<button
 					type="button"
-					class="start-action bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 font-medium text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-purple-500/20"
+					id="game-start-action"
+					class="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 font-medium text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-purple-500/20"
 				>
 					<svg
 						class="w-4 h-4 sm:w-5 sm:h-5"
@@ -35,7 +36,7 @@
 					</svg>
 					Start
 				</button>
-				<div class="state text-gray-400 font-semibold"></div>
+				<div id="game-current-state" class="text-gray-400 font-semibold"></div>
 			</div>
 
 			<!-- User Zone -->
@@ -53,12 +54,12 @@
 				<label class="cursor-pointer">
 					<input
 						type="file"
-						id="avatar"
+						id="user-select-avatar"
 						accept="image/png, image/jpeg, image/jpg, image/gif"
 						class="hidden"
 					/>
 					<img
-						id="playerAvatar"
+						id="user-avatar"
 						class="w-10 h-10 sm:w-12 sm:h-12 rounded-full outline-none object-cover border-2 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 transform hover:scale-105"
 						alt="Avatar du joueur"
 					/>
@@ -71,11 +72,12 @@
 	<div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto p-2 sm:p-4">
 		<!-- Main Game Area -->
 		<div class="flex-1 relative">
-			<div class="mode"></div>
+			<div id="infos-current-mode"></div>
 
 			<!-- Score Table with Timer and Speed -->
 			<div
-				class="infos-player hidden flex-col absolute left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2"
+				id="infos-current-player"
+				class="hidden flex-col absolute left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2"
 			>
 				<!-- Timer and Speed -->
 				<div class="flex flex-col w-40 sm:w-48 md:w-64 space-y-2">
@@ -95,7 +97,7 @@
 								d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
 							></path>
 						</svg>
-						<div class="displayTime">00:00</div>
+						<div id="infos-time">00:00</div>
 						<div
 							class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-purple-500/40 animate-infinite-slide"
 						></div>
@@ -117,11 +119,12 @@
 								d="M13 10V3L4 14h7v7l9-11h-7z"
 							></path>
 						</svg>
-						<div class="displaySpeed">0 Speed</div>
+						<div id="infos-typing-speed">0 Speed</div>
 						<div
 							class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-blue-500/40 animate-infinite-slide"
 						></div>
 					</div>
+					<div id="infos-turn-time"></div>
 				</div>
 
 				<!-- Score Table -->
@@ -257,7 +260,7 @@
 			<div
 				class="mx-auto w-full flex justify-center items-center relative top-6 sm:top-10"
 			>
-				<canvas class="players relative"></canvas>
+				<canvas id="game-player-content" relative"></canvas>
 				<div
 					class="find-entity absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
 				></div>
@@ -271,9 +274,9 @@
 					class="relative write-container mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
 				>
 					<input
-						id="write"
+						id="game-input-answer"
 						type="text"
-						class="write uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500"
+						class="uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500"
 						placeholder="Tapez votre message..."
 						maxlength="100"
 					/>
@@ -372,8 +375,9 @@
 								>🎮 Mode</label
 							>
 							<select
-								id="mode-select"
-								class="mode-select w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
+								id="select-mode"
+								title="Mode"
+								class="w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
 							>
 								<option selected value="code-http">code-http</option>
 								<option value="english">english</option>
@@ -388,7 +392,7 @@
 							>
 							<div class="flex items-center gap-3">
 								<input
-									class="turn-time-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
+									class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
 									type="text"
 									id="turn-time-input"
 									aria-label="Temps de tour"
@@ -396,7 +400,7 @@
 									value="10"
 								/>
 								<input
-									class="turn-time-range flex-1 accent-purple-600 h-1"
+									class="flex-1 accent-purple-600 h-1"
 									type="range"
 									id="turn-time-range"
 									aria-label="Temps de tour"
@@ -473,7 +477,7 @@
 							>
 							<div class="flex items-center gap-3">
 								<input
-									class="bot-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
+									class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
 									type="text"
 									id="bot-input"
 									min="0"

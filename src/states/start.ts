@@ -1,4 +1,4 @@
-import { GameInterface } from "@/types/game/game.type";
+import { GameInterface } from "@/types/game/game-type";
 import { STATE } from "../game";
 
 export default function start(

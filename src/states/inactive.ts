@@ -1,4 +1,4 @@
-import type { GameInterface } from "@/types/game/game.type";
+import type { GameInterface } from "@/types/game/game-type";
 
 import { hideGame } from "@/utils/hideGame";
 import { STATE } from "@/game";

@@ -1,9 +1,9 @@
 import { stateElement } from "./../utils/selector";
-import type { GameInterface } from "@/types/game/game.type";
+import type { GameInterface } from "@/types/game/game-type";
 
 import { STATE } from "@/game";
 import { addPlayers } from "@/features/player/player-add";
-import { IntervalType } from "@/types/game/game.turn.type";
+import { IntervalType } from "@/types/game/game-turn.type";
 
 type WaitingInterval = ReturnType<typeof setInterval>;
 

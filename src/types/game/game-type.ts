@@ -1,8 +1,8 @@
-import type { PuzzleType } from "@/types/data.type";
-import type { ModesNames } from "@/types/game/game.modes.type";
-import type { GameTurnInterface } from "@/types/game/game.turn.type";
-import type { SoundController } from './game.sound.type';
-import { ProfileStats } from '@/types/profile/profile.type';
+import type { PuzzleType } from "@/types/data-type";
+import type { ModesNames } from "@/types/game/game-modes.type";
+import type { GameTurnInterface } from "@/types/game/game-turn.type";
+import type { SoundController } from './game-sound.type';
+import { ProfileStats } from '@/types/profile/profile-type';
 
 export type GameState = "inactive" | "start" | "waiting" | "game" | "end";
 

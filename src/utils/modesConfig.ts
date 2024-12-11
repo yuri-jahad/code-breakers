@@ -1,7 +1,7 @@
 // modesConfig.ts
 import { STATE } from "@/game";
-import { GameInterface } from "@/types/game/game.type";
-import { ModesNames } from "@/types/game/game.modes.type";
+import { GameInterface } from "@/types/game/game-type";
+import { ModesNames } from "@/types/game/game-modes.type";
 
 function modesConfig(game: GameInterface) {
   // Sélection des éléments DOM

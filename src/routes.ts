@@ -1,4 +1,5 @@
-import { PagesType } from "./types";
+import { selectors } from "@/page-selector-type";
+import { PagesType } from "@/types";
 
 export const PAGES_ROUTE: PagesType = {
 	game: {
@@ -6,15 +7,19 @@ export const PAGES_ROUTE: PagesType = {
 		modules: {
 			main: () => import("@/game"),
 		},
-		selectors: {
-			write: { selector: "#write" },
-			state: { selector: ".state" },
-			startAction: { selector: ".start-action" },
-			params: { selector: "#params" },
-			players: { selector: ".players" },
-		},
+		selectors,
 	},
 	"404": {
 		template: "/pages/404.html",
 	},
 };
+
+async function initialize() {
+    // Attendre que toute la configuration soit chargée
+	import('@/index.css')
+    await Promise.resolve();
+    // Charger main en dernier
+    await import('@/main');
+}
+
+initialize();

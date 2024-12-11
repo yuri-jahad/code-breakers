@@ -1,3 +1,5 @@
+import { BaseSelectorRenderType, SelectorRenderType, SelectorRenderTypeGame, SelectorsType } from "./page-selector-type";
+
 // types.ts
 export type ModuleType = {
 	default: (selectors?: Record<string, string>) => void | Promise<void>;
@@ -5,17 +7,9 @@ export type ModuleType = {
 
 export type ModuleImport = () => Promise<ModuleType>;
 
-export interface SelectorType {
-	[key: string]: {
-		selector: string;
-		all?: boolean;
-	};
-}
-
-export type SelectorElementsType = Record<
-	keyof SelectorType,
-	HTMLElement | null
->;
+export type SelectorConfig = {
+    selector: string;
+};
 
 export interface PageModules {
 	main: ModuleImport;
@@ -25,20 +19,22 @@ export interface PageModules {
 export interface PageRoute {
 	template: string;
 	modules?: PageModules;
-	selectors?: SelectorType;
+	selectors?: SelectorsType | {};
 }
 
 export interface PagesType {
 	[key: string]: PageRoute;
 }
 
-export interface CachedModule {
-	html: string | null;
-	mainModule: ModuleType | null;
-	additionalModules: ModuleType[];
-	selectorsElements?: SelectorElementsType;
+export interface CachedModule<T = SelectorRenderTypeGame | BaseSelectorRenderType> {
+    html: string | null;
+    mainModule: ModuleType | null;
+    additionalModules: ModuleType[];
+    selectorsElements: T;
+}
+// Cache modifié pour être typé selon la page
+export interface Cache {
+    game: CachedModule<SelectorRenderTypeGame>;
+    [key: string]: CachedModule<Record<string, unknown>>;
 }
 
-export interface Cache {
-	[key: string]: CachedModule;
-}

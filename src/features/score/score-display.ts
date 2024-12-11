@@ -1,4 +1,4 @@
-import type { ProfileStats } from "@/types/profile/profile.type";
+import type { ProfileStats } from "@/types/profile/profile-type";
 
 export const displayScore = (currentPlayer: ProfileStats) => {
 	const displayCorrectWord = document.querySelector(".displayCorrectWord");

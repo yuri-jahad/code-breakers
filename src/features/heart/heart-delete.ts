@@ -1,4 +1,4 @@
-import type { ProfileStats } from "@/types/profile/profile.type";
+import type { ProfileStats } from "@/types/profile/profile-type";
 
 export function deleteHeartHTML(id: number) {
 	const playerElement = document.querySelector(`[data-id="${id}"]`);

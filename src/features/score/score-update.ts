@@ -1,4 +1,4 @@
-import type { ProfileStats } from "@/types/profile/profile.type";
+import type { ProfileStats } from "@/types/profile/profile-type";
 
 export const updateScore = <T extends keyof ProfileStats>(
     currentPlayer: ProfileStats,

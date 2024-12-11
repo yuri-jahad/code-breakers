@@ -1,5 +1,5 @@
-import type { PuzzleType } from "@/types/data.type";
-import type { ModeCodeHttpType } from "@/types/game/game.modes.type";
+import type { PuzzleType } from "@/types/data-type";
+import type { ModeCodeHttpType } from "@/types/game/game-modes.type";
 import { GameMode } from "@/core/game/game-modes";
 
 export default class HttpCodeGame extends GameMode<

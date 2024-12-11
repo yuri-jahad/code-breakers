@@ -1,153 +1,242 @@
-import { Cache, ModuleType } from "./types";
-import { PAGES_ROUTE } from "./routes";
-import PageSelector from "./pageSelector";
+import { Cache, ModuleType } from "@/types";
+import { PAGES_ROUTE } from "@/routes";
+import PageSelector from "@/pageSelector";
+import {
+    selectors,
+    BaseSelectorRenderType,
+    SelectorRenderType,
+    SelectorsKeysType,
+    AllNestedKeys,
+    SelectorRenderTypeGame,
+    SelectorPath,
+    SelectorsType,
+    SelectorPathAutocomplete,
+} from "@/page-selector-type";
 
 export class PageLoader extends PageSelector {
-	private app: HTMLElement | null;
-	private static instance: PageLoader | null = null;
-	public cache: Cache;
-	private lis: NodeListOf<HTMLLIElement> | null;
-	constructor() {
-		super();
-		if (window.location.pathname.slice(1) !== "game") {
-			window.history.pushState(null, "", "game");
-		}
-		this.app = document.querySelector("#app");
-		this.lis = document.querySelectorAll("li");
-		this.cache = this.initializeCache();
-	}
+    private app: HTMLElement | null;
+    private static instance: PageLoader | null = null;
+    public cache: Cache;
+    private lis: NodeListOf<HTMLLIElement> | null;
+    private initialized = false;
+    private initializationPromise: Promise<void> | null = null;
 
-	public static getInstance(): PageLoader {
-		if (!PageLoader.instance) {
-			PageLoader.instance = new PageLoader();
-		}
-		return PageLoader.instance;
-	}
+    constructor() {
+        super();
+        const defaultPath = "game";
+        if (window.location.pathname.slice(1) !== defaultPath) {
+            window.history.pushState(null, "", defaultPath);
+        }
+        this.app = document.querySelector("#app") || document.createElement("div");
+        this.lis = document.querySelectorAll("li");
+        this.cache = this.initializeCache();
+    }
 
-	private initializeCache(): Cache {
-		const cache: Cache = {};
-		Object.keys(PAGES_ROUTE).forEach(key => {
-			cache[key] = {
-				html: null,
-				mainModule: null,
-				additionalModules: [],
-				selectorsElements: {},
-			};
-		});
-		return cache;
-	}
+    public static getInstance(): PageLoader {
+        if (!PageLoader.instance) {
+            PageLoader.instance = new PageLoader();
+        }
+        return PageLoader.instance;
+    }
 
-	public async initialize() {
-		if (document.readyState === "loading") {
-			// Si non, attendre l'événement DOMContentLoaded
-			window.addEventListener("DOMContentLoaded", async () => {
-				const currentPage = window.location.pathname.slice(1);
-				await this.loadContent(currentPage);
-			});
-		} else {
-			const currentPage = window.location.pathname.slice(1);
-			await this.loadContent(currentPage);
-		}
+    private initializeCache(): Cache {
+        const cache: Cache = {} as Cache;
+        const routes = PAGES_ROUTE || {};
+        Object.keys(routes).forEach(key => {
+            cache[key] = {
+                html: null,
+                mainModule: null,
+                additionalModules: [],
+                selectorsElements: this.createEmptySelectorRender(),
+            };
+        });
+        return cache;
+    }
 
-		window.addEventListener("popstate", async () => {
-			const currentPage = window.location.pathname.slice(1);
-			await this.loadContent(currentPage);
-		});
+    private createEmptySelectorRender(): SelectorRenderTypeGame | BaseSelectorRenderType {
+        const empty: Partial<SelectorRenderTypeGame> = {};
+        const selectorKeys = Object.keys(selectors) as SelectorsKeysType[];
+        
+        selectorKeys.forEach((section) => {
+            const sectionSelectors: Record<string, HTMLElement | NodeListOf<HTMLElement> | null> = {};
+            const sectionKeys = Object.keys(selectors[section]);
+            
+            sectionKeys.forEach(key => {
+                sectionSelectors[key] = null;
+            });
+            
+            empty[section] = sectionSelectors as Record<AllNestedKeys, HTMLElement | NodeListOf<HTMLElement> | null>;
+        });
+        
+        return empty as SelectorRenderTypeGame;
+    }
 
-		if (this.lis) {
-			this.lis.forEach(li => {
-				li.addEventListener("click", async (event: MouseEvent) => {
-					event.preventDefault();
-					const target = event.target as HTMLElement;
-					if (target?.dataset.section) {
-						window.history.pushState(null, "", target.dataset.section);
-						await this.loadContent(target.dataset.section);
-					}
-				});
-			});
-		}
-    return this.cache[window.location.pathname.slice(1)].selectorsElements;
-	}
+    public async initialize(): Promise<void> {
+        if (this.initialized) return;
+        if (this.initializationPromise) return this.initializationPromise;
 
-	private isModuleCached(pageName: string): boolean {
-		const cachedPage = this.cache[pageName];
-		if (!cachedPage) return false;
+        this.initializationPromise = (async () => {
+            if (document.readyState === "loading") {
+                await new Promise<void>(resolve => {
+                    window.addEventListener("DOMContentLoaded", () => resolve());
+                });
+            }
 
-		const pageConfig = PAGES_ROUTE[pageName];
-		const hasAdditionalModules = pageConfig?.modules?.additional?.length || 0;
+            const currentPage = window.location.pathname.slice(1) || "game";
+            await this.loadContent(currentPage);
 
-		return !!(
-			cachedPage.html &&
-			cachedPage.mainModule &&
-			(!hasAdditionalModules ||
-				cachedPage.additionalModules.length === hasAdditionalModules)
-		);
-	}
+            window.addEventListener("popstate", async () => {
+                const newPage = window.location.pathname.slice(1) || "game";
+                await this.loadContent(newPage);
+            });
 
-	private async loadContent(pageName: string): Promise<void> {
-		try {
-			if (!PAGES_ROUTE[pageName]) {
-				pageName = "404";
-			}
+            if (this.lis) {
+                this.lis.forEach(li => {
+                    li.addEventListener("click", async (event: MouseEvent) => {
+                        event.preventDefault();
+                        const target = event.target as HTMLElement;
+                        const section = target?.dataset?.section;
+                        if (section) {
+                            window.history.pushState(null, "", section);
+                            await this.loadContent(section);
+                        }
+                    });
+                });
+            }
 
-			// Vérifier le cache
-			if (this.isModuleCached(pageName)) {
-				console.log("Chargement depuis le cache");
-				await this.renderPage(pageName);
-				return;
-			}
+            this.initialized = true;
+        })();
 
-			// Charger le HTML
-			const htmlResponse = await fetch(PAGES_ROUTE[pageName].template);
-			if (!htmlResponse.ok) throw new Error("Erreur de chargement HTML");
-			const htmlContent = await htmlResponse.text();
-			// Charger le module principal
+        await this.initializationPromise;
+    }
 
-			const mainModule = await PAGES_ROUTE[pageName].modules?.main();
-    
-			// Charger les modules additionnels
-			const additionalModules = await this.loadAdditionalModules(pageName);
-      
-			// Mettre à jour le cache
-			this.cache[pageName] = {
-        html: htmlContent,
-				mainModule: mainModule as ModuleType,
-				additionalModules,
-			};
-      await this.renderPage(pageName);
-			this.cache[pageName].selectorsElements = this.setSelector(PAGES_ROUTE[pageName].selectors || {});
-		} catch (error) {
-			console.error("Erreur de chargement de la page:", error);
-			if (pageName !== "404") {
-				await this.loadContent("404");
-			}
-		}
-	}
+    public getSelectors<T extends SelectorsKeysType>(
+        path: SelectorPathAutocomplete<T>
+    ): HTMLElement | NodeListOf<HTMLElement> | null {
+        if (!this.initialized) {
+            throw new Error('PageLoader not initialized. Please await pageLoaderInstance.initialize() before using getSelectors');
+        }
 
-	private async loadAdditionalModules(pageName: string): Promise<any[]> {
-		const additionalImports = PAGES_ROUTE[pageName].modules?.additional || [];
-		return Promise.all(additionalImports.map(importFn => importFn()));
-	}
+        const page = window.location.pathname.slice(1) || "game";
+        const [section, selector] = path.split(".");
+        
+        if (page === 'game') {
+            const gameSelectors = this.cache[page].selectorsElements as SelectorRenderTypeGame;
+            return gameSelectors[section as SelectorsKeysType]?.[selector as keyof SelectorsType[T]] ?? null;
+        }
+        
+        const otherSelectors = this.cache[page].selectorsElements as BaseSelectorRenderType;
+        return otherSelectors[section]?.[selector] ?? null;
+    }
 
-	private async renderPage(pageName: string): Promise<void> {
-		const cachedPage = this.cache[pageName];
-		if (!this.app || !cachedPage) return;
+    private isModuleCached(pageName: string): boolean {
+        const cachedPage = this.cache[pageName];
+        if (!cachedPage) return false;
 
-		this.app.innerHTML = cachedPage.html as string;
+        const pageConfig = PAGES_ROUTE[pageName];
+        if (!pageConfig) return false;
 
-		await this.initializeModule(cachedPage.mainModule);
+        const hasAdditionalModules = pageConfig.modules?.additional?.length || 0;
 
-		for (const module of cachedPage.additionalModules) {
-			await this.initializeModule(module);
-		}
-	}
+        return !!(
+            cachedPage.html &&
+            cachedPage.mainModule &&
+            (!hasAdditionalModules ||
+                (cachedPage.additionalModules?.length ?? 0) === hasAdditionalModules)
+        );
+    }
 
-	private async initializeModule(module: any): Promise<void> {
-		if (module?.default && typeof module.default === "function") {
-			await module.default();
-		}
-	}
-	public getCurrentSelectors() {
-		return this.cache[window.location.pathname.slice(1)].selectorsElements;
-	}
+    private async loadContent(pageName: string): Promise<void> {
+        try {
+            const validPageName = PAGES_ROUTE[pageName] ? pageName : "404";
+
+            if (this.isModuleCached(validPageName)) {
+                await this.renderPage(validPageName);
+                return;
+            }
+
+            const pageConfig = PAGES_ROUTE[validPageName];
+            if (!pageConfig?.template) {
+                throw new Error(`Template not found for page: ${validPageName}`);
+            }
+
+            const htmlResponse = await fetch(pageConfig.template);
+            if (!htmlResponse.ok) throw new Error("Erreur de chargement HTML");
+            
+            const htmlContent = await htmlResponse.text();
+            const mainModule = await pageConfig.modules?.main?.() || null;
+            const additionalModules = await this.loadAdditionalModules(validPageName);
+
+            this.cache[validPageName] = {
+                html: htmlContent,
+                mainModule: mainModule as ModuleType,
+                additionalModules,
+                selectorsElements: this.createEmptySelectorRender()
+            };
+
+            await this.renderPage(validPageName);
+            this.cache[validPageName].selectorsElements = this.setSelector(
+                pageConfig.selectors || {}
+            );
+        } catch (error) {
+            console.error("Erreur de chargement de la page:", error);
+            if (pageName !== "404") {
+                await this.loadContent("404");
+            }
+        }
+    }
+
+    private async loadAdditionalModules(pageName: string): Promise<ModuleType[]> {
+        const additionalImports = PAGES_ROUTE[pageName]?.modules?.additional || [];
+        try {
+            const modules = await Promise.all(
+                additionalImports.map(async importFn => {
+                    try {
+                        return await importFn();
+                    } catch {
+                        return null;
+                    }
+                })
+            );
+            return modules.filter((module): module is ModuleType => module !== null);
+        } catch {
+            return [];
+        }
+    }
+
+    private async renderPage(pageName: string): Promise<void> {
+        const cachedPage = this.cache[pageName];
+        if (!this.app || !cachedPage?.html) return;
+        
+        this.app.innerHTML = cachedPage.html;
+        
+        if (cachedPage.mainModule) {
+            await this.initializeModule(cachedPage.mainModule);
+        }
+
+        for (const module of (cachedPage.additionalModules || [])) {
+            if (module) {
+                await this.initializeModule(module);
+            }
+        }
+    }
+
+    private async initializeModule(module: ModuleType | null): Promise<void> {
+        if (!module?.default || typeof module.default !== "function") {
+            return;
+        }
+        
+        try {
+            await module.default();
+        } catch (error) {
+            console.error("Error initializing module:", error);
+        }
+    }
 }
+
+const pageLoaderInstance = PageLoader.getInstance();
+
+// Initialisation immédiate mais non bloquante
+pageLoaderInstance.initialize().catch(console.error);
+
+export { pageLoaderInstance };

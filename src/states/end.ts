@@ -1,4 +1,4 @@
-import { GameInterface } from "@/types/game/game.type";
+import { GameInterface } from "@/types/game/game-type";
 import { resetGame } from "@/utils/hideGame";
 import { STATE } from "@/game";
 

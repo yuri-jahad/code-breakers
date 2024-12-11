@@ -1,7 +1,7 @@
-import type { GameInterface } from "@/types/game/game.type";
-import type { ProfileStats } from "@/types/profile/profile.type";
-
-import { IntervalType } from "@/types/game/game.turn.type";
+import { pageLoaderInstance } from "@/pageLoader";
+import type { GameInterface } from "@/types/game/game-type";
+import type { ProfileStats } from "@/types/profile/profile-type";
+import { IntervalType } from "@/types/game/game-turn.type";
 import { STATE } from "@/game";
 import { displayScore } from "@/features/score/score-display";
 import { displaySpeed } from "@/features/speed/speed-display";
@@ -13,6 +13,7 @@ import stateEnd from "@/states/end";
 import { updateScore } from "@/features/score/score-update";
 import { data } from "@/modes/modes-factory";
 import { animateTextTyping } from "@/utils/animationTextTyping";
+import { isHTMLElement } from "@/utils/dom";
 
 export default function game(
 	writeInput: HTMLInputElement,
@@ -27,6 +28,8 @@ export default function game(
 	game.data = data || null;
 	game.setTurnTimeCompare = game.getTurnTime;
 
+	const a = pageLoaderInstance.getSelectors("params.paramsModeSelect");
+	console.log(a);
 	// Initial UI setup
 	stateElement.innerHTML = "IN GAME";
 	game.state = STATE.GAME;
@@ -50,9 +53,9 @@ export default function game(
 					game.getCurrentPlayer.speed.start = Date.now();
 					displayScore(game.getCurrentPlayer);
 				}
-				const b = document.querySelector(".displayTurnTime");
-				if (b && currentTime) {
-					b.textContent = currentTime.toString();
+				
+				if (isHTMLElement(selectors.infos.infosTurnTime) && currentTime) {
+					selectors.infos.infosTurnTime.textContent = currentTime.toString();
 				}
 
 				const currentPlayer = game.players[game.currentPlayerIndex];

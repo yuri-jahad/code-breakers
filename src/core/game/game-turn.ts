@@ -4,8 +4,8 @@ import {
   IntervalValuesType,
   TurnActivePlayer,
   TurnHandler,
-} from "@/types/game/game.turn.type";
-import type { GameTurnInterface } from "@/types/game/game.turn.type";
+} from "@/types/game/game-turn.type";
+import type { GameTurnInterface } from "@/types/game/game-turn.type";
 import GameParameters from "@/core/game/game-parameters";
 
 

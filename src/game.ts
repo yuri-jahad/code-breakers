@@ -1,4 +1,4 @@
-import { IntervalId, IntervalType } from "@/types/game/game.turn.type";
+import { IntervalId, IntervalType } from "@/types/game/game-turn.type";
 import { Game } from "@/core/game/game";
 import { GameFactory } from "@/modes/modes-factory";
 import stateInactive from "@/states/inactive";
@@ -11,7 +11,8 @@ import { isGameWin } from "@/features/game/game-win";
 import { getPlayer } from "@/features/player/player-get";
 import { updateScore } from "@/features/score/score-update";
 import handleUserRegistration from "@/features/profile/profile-user";
-import UserStorage from "@/core/user/user.storage";
+import { selectors } from "@/pageLoader";
+
 
 export const STATE = {
 	INACTIVE: "inactive",
