@@ -157,7 +157,8 @@
 			</div>
 
 			<div
-				class="rules bg-black/20 rounded-lg p-4 sm:p-8 backdrop-blur-sm w-full mx-auto"
+			    id="helper-rules"
+				 bg-black/20 rounded-lg p-4 sm:p-8 backdrop-blur-sm w-full mx-auto"
 			>
 				<h3
 					class="text-purple-400 font-semibold mb-4 sm:mb-6 text-sm sm:text-base flex items-center gap-2 justify-center"
@@ -262,7 +263,8 @@
 			>
 				<canvas id="game-player-content" relative"></canvas>
 				<div
-					class="find-entity absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+				id="game-find-entity"
+					class="absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
 				></div>
 			</div>
 
@@ -271,7 +273,8 @@
 				class="text-center w-full fixed sm:absolute bottom-1 sm:bottom-20 left-1/2 transform -translate-x-1/2 px-2 sm:px-0"
 			>
 				<div
-					class="relative write-container mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
+					id="game-answer-container"
+					class="relative wordmx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
 				>
 					<input
 						id="game-input-answer"
@@ -281,7 +284,8 @@
 						maxlength="100"
 					/>
 					<span
-						class="absolute letter-count right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300"
+						id="game-letter-count"
+						class="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300"
 					>
 						0
 					</span>
@@ -314,7 +318,8 @@
 					<span class="text-sm">Paramètres</span>
 				</button>
 				<button
-					class="sidebar-chat-btn flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
+					id="game-chat-btn"
+					class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
 				>
 					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
 						<path
@@ -331,19 +336,22 @@
 			<!-- Chat Header -->
 
 			<div class="sidebar-content w-full h-full relative">
-				<div class="sidebar-chat hidden w-full h-[100%]">
+				<div  id="sidebar-chat-container" class="hidden w-full h-[100%]">
 					<!-- Chat Input -->
 					<div
-						class="messages-container h-[90%] w-full border-t border-white/5"
+						id="sidebar-chat-messages"
+						class="h-[90%] w-full border-t border-white/5"
 					></div>
 
-					<div class="typing-message-container h-[10%] relative">
+					<div id="sidebar-chat-input-container" class="h-[10%] relative">
 						<input
+							id="sidebar-chat-input"
 							type="text"
 							class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0 pr-12 border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
 							placeholder="Tapez votre message..."
 						/>
 						<button
+							id="sidebar-chat-send"
 							class="absolute right-5 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors"
 						>
 							<svg
@@ -363,19 +371,19 @@
 					</div>
 				</div>
 				<div
-					id="params"
-					class="sidebar-params w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
+					id="sidebar-params"
+					class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
 				>
 					<div class="p-4 space-y-2">
 						<!-- Mode -->
 						<div class="space-y-1.5">
 							<label
 								class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
-								for="mode-select"
+								for="params-select-mode"
 								>🎮 Mode</label
 							>
 							<select
-								id="select-mode"
+								id="params-select-mode"
 								title="Mode"
 								class="w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
 							>

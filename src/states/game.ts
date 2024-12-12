@@ -1,4 +1,3 @@
-import { pageLoaderInstance } from "@/pageLoader";
 import type { GameInterface } from "@/types/game/game-type";
 import type { ProfileStats } from "@/types/profile/profile-type";
 import { IntervalType } from "@/types/game/game-turn.type";
@@ -13,14 +12,9 @@ import stateEnd from "@/states/end";
 import { updateScore } from "@/features/score/score-update";
 import { data } from "@/modes/modes-factory";
 import { animateTextTyping } from "@/utils/animationTextTyping";
-import { isHTMLElement } from "@/utils/dom";
+import { pageLoaderInstance as page } from "@/pageLoader";
 
-export default function game(
-	writeInput: HTMLInputElement,
-	paramsDiv: HTMLElement,
-	game: GameInterface,
-	stateElement: HTMLElement
-) {
+export default function game(game: GameInterface) {
 	const INITIAL_TURN_COUNT = game.turnCurrentPlayer?.turnCount || 0;
 	let currentTurnCount = INITIAL_TURN_COUNT;
 	let id = null;
@@ -28,20 +22,18 @@ export default function game(
 	game.data = data || null;
 	game.setTurnTimeCompare = game.getTurnTime;
 
-	const a = pageLoaderInstance.getSelectors("params.paramsModeSelect");
-	console.log(a);
 	// Initial UI setup
-	stateElement.innerHTML = "IN GAME";
-	game.state = STATE.GAME;
-	paramsDiv.style.display = "none";
+	(page.qs("game.gameCurrentState") as HTMLElement).textContent = "IN GAME";
+	(page.qs("sidebar.sidebarParams") as HTMLElement).style.display = "none";
 	const start = Date.now();
+	game.state = STATE.GAME;
 	game.timerInterval = window.setInterval(() => displayTimeGame(start), 1000);
 
 	// Function to handle player's turn time
 	const handleTurnTime = () => {
 		let typingStarted = false;
 		game.clearInterval(IntervalType.PLAYER_TURN);
-		writeInput.hidden = false;
+		(page.qs("game.gameInputAnswer") as HTMLInputElement).hidden = false;
 		const interval = window.setInterval(async () => {
 			const currentTime = game.getTurnTime;
 
@@ -53,25 +45,22 @@ export default function game(
 					game.getCurrentPlayer.speed.start = Date.now();
 					displayScore(game.getCurrentPlayer);
 				}
-				
-				if (isHTMLElement(selectors.infos.infosTurnTime) && currentTime) {
-					selectors.infos.infosTurnTime.textContent = currentTime.toString();
-				}
+
+				// if (isHTMLElement(selectors.infos.infosTurnTime) && currentTime) {
+				// 	selectors.infos.infosTurnTime.textContent = currentTime.toString();
+				// }
 
 				const currentPlayer = game.players[game.currentPlayerIndex];
 				if (currentPlayer) {
-					const letterCount: HTMLElement | null =
-						document.querySelector(".letter-count");
-					if (!letterCount) return;
-
 					const isPlayer = currentPlayer.id === 0;
-					const writeContainer: HTMLElement | null =
-						document.querySelector(".write-container");
-					if (!writeContainer) return;
+
 					if (isPlayer) {
-						writeContainer.classList.remove("hidden");
+						(
+							page.qs("game.gameAnswerContainer") as HTMLElement
+						).classList.remove("hidden");
 					} else {
-						letterCount.style.display = "none";
+						(page.qs("game.gameLetterCount") as HTMLElement).style.display =
+							"none";
 					}
 				}
 				//game.setCurrentPlayer = players[game.currentPlayerIndex];
@@ -103,14 +92,16 @@ export default function game(
 
 						if (result === game.puzzle.response) {
 							game.gameSound.playSound("puzzleSolved");
-              const players = document.querySelector('.players')
-              if (!players) return; 
-              console.log(players)
-              players.classList.add('border border-green-500')
-              setTimeout(() => {
-                players.classList.remove('border border-green-500')
-              }, 100)
-             
+
+							(page.qs("game.gamePlayerContent") as HTMLElement).classList.add(
+								"border border-green-500"
+							);
+							setTimeout(() => {
+								(
+									page.qs("game.gamePlayerContent") as HTMLElement
+								).classList.remove("border border-green-500");
+							}, 100);
+
 							const currentPlayer = game.getCurrentPlayer;
 							if (game.getCurrentPlayer) {
 								game.getCurrentPlayer.speed.end = Date.now();
@@ -124,11 +115,7 @@ export default function game(
 								);
 								console.log(game.historique.size, game.data?.length || 0);
 								if (isComplete) {
-									stateEnd(
-										game,
-										document.querySelector(".start-action"),
-										paramsDiv
-									);
+									stateEnd(game);
 									return;
 								}
 							}
@@ -161,11 +148,7 @@ export default function game(
 						);
 						if (game.getPlayers.length === 0) {
 							console.log("No players remaining - ending game");
-							stateEnd(
-								game,
-								document.querySelector(".start-action"),
-								paramsDiv
-							);
+							stateEnd(game);
 							return;
 						}
 					}
@@ -190,8 +173,8 @@ export default function game(
 }
 
 export const updateTimerDisplay = (currentTime: number) => {
-	const displayTurnTime = document.querySelector(".displayTurnTime");
-	if (displayTurnTime && currentTime >= 0) {
-		displayTurnTime.textContent = currentTime.toString();
+	if (currentTime >= 0) {
+		(page.qs("infos.infosTurnTime") as HTMLElement).textContent =
+			currentTime.toString();
 	}
 };

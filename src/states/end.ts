@@ -1,21 +1,17 @@
 import { GameInterface } from "@/types/game/game-type";
 import { resetGame } from "@/utils/hideGame";
 import { STATE } from "@/game";
+import { pageLoaderInstance as page } from "@/pageLoader";
 
-export default function stateEnd(
-  game: GameInterface,
-  startAction: HTMLButtonElement | null,
-  paramsDiv: HTMLElement | null
-) {
-  game.state = "end";
-  const stateElement = document.querySelector(".state");
-  if (!startAction || !paramsDiv || !stateElement) return;
-  paramsDiv.style.display = "block";
-  stateElement.innerHTML = STATE.END;
-  startAction.id = STATE.END;
-  startAction.innerHTML = STATE.START;
-  clearInterval(game.timerInterval as number);
-  game.timerInterval = null;
-  resetGame(game);
-  console.log("Evènement END");
+export default function stateEnd(game: GameInterface) {
+	game.state = "end";
+
+	(page.qs("game.gameCurrentState") as HTMLElement).textContent = STATE.END;
+	(page.qs("game.gameStartAction") as HTMLButtonElement).id = STATE.END;
+	(page.qs("game.gameStartAction") as HTMLButtonElement).textContent =
+		STATE.START;
+	clearInterval(game.timerInterval as number);
+	game.timerInterval = null;
+	resetGame(game);
+	console.log("Evènement END");
 }

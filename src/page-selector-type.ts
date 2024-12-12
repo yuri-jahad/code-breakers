@@ -1,9 +1,13 @@
-export type SelectorConfig = {
+export interface SelectorConfig {
 	selector: string;
-};
+	all?: boolean;
+}
 
 // Les sélecteurs avec leurs valeurs
 export const selectors = {
+	helper: {
+		helperRules: { selector: "#helper-rules" },
+	},
 	infos: {
 		infosCurrentMode: { selector: "#infos-current-mode" },
 		infosCurrentPlayer: { selector: "#infos-current-player" },
@@ -14,20 +18,28 @@ export const selectors = {
 		userAvatar: { selector: "#user-avatar" },
 	},
 	game: {
+		gameAnswerContainer: { selector: "#game-answer-container" },
 		gameInputAnswer: { selector: "#game-input-answer" },
+		gameLetterCount: { selector: "#game-letter-count" },
 		gameStartAction: { selector: "#game-start-action" },
 		gameCurrentState: { selector: "#game-current-state" },
 		gamePlayerContent: { selector: "#game-player-content" },
+		gameFindEntity: { selector: "#game-find-entity" },
 	},
 	sidebar: {
 		sidebarContent: { selector: ".sidebar-content" },
-		sidebarParams: { selector: "#params" },
+		sidebarChatContainer: { selector: "#sidebar-chat-container" },
+		sidebarChatMessages: { selector: "#sidebar-chat-messages" },
+		sidebarChatInput: { selector: "#sidebar-chat-input" },
+		sidebarChatInputContainer: { selector: "#sidebar-chat-input-container" },
+		sidebarChatSend: { selector: "#sidebar-chat-send" },
+		sidebarParams: { selector: "#sidebar-params" },
 		sidebarParamsBtn: { selector: ".sidebar-params-btn" },
 		sidebarChat: { selector: ".sidebar-chat" },
 		sidebarChatBtn: { selector: ".sidebar-chat-btn" },
 	},
 	params: {
-		paramsModeSelect: { selector: "#select-mode" },
+		paramsSelectMode: { selector: "#params-select-mode" },
 		paramsTurnTimeInput: { selector: "#turn-time-input" },
 		paramsTurnTimeRange: { selector: "#turn-time-range" },
 		paramsMinHeartInput: { selector: "#min-heart-input" },
@@ -45,8 +57,13 @@ export interface SelectorRenderType {
 	};
 }
 
-// Type pour le rendu des sélecteurs
+export type BaseSelectorType = {
+	[section: string]: {
+		[key: string]: SelectorConfig;
+	};
+};
 
+// Type pour le rendu des sélecteurs
 export type SelectorsType = typeof selectors;
 export type SelectorsKeysType = keyof SelectorsType;
 
@@ -73,10 +90,10 @@ export type ChildSelectorRenderType = Record<
 >;
 
 export type SelectorPath = keyof {
-    [K in SelectorsKeysType]: {
-        [P in keyof SelectorsType[K] as `${K}.${string & P}`]: any
-    }
+	[K in SelectorsKeysType]: {
+		[P in keyof SelectorsType[K] as `${K}.${string & P}`]: any;
+	};
 }[SelectorsKeysType];
 
-export type SelectorPathAutocomplete<T extends SelectorsKeysType> = 
-    `${T}.${keyof SelectorsType[T] & string}`;
+export type SelectorPathAutocomplete<T extends SelectorsKeysType> =
+	`${T}.${keyof SelectorsType[T] & string}`;

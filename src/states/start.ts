@@ -1,25 +1,21 @@
 import { GameInterface } from "@/types/game/game-type";
-import { STATE } from "../game";
+import { STATE } from "@/game";
+import { pageLoaderInstance as page } from "@/pageLoader";
 
-export default function start(
-  startAction: HTMLButtonElement | null,
-  game: GameInterface
-) {
-  if (!startAction) return;
+export default function start(game: GameInterface) {
+	game.state = STATE.START;
 
-  startAction.style.display = "block";
-  game.state = STATE.START;
-  startAction.id = STATE.GAME;
-  startAction.innerHTML = STATE.END;
+	page.setStyle(page.qs("game.gameStartAction") as HTMLElement, "display", "block");
+	page.setAttribute(page.qs("game.gameStartAction") as HTMLElement, "id", STATE.GAME);
+	page.makeText(STATE.END, page.qs("game.gameStartAction") as HTMLElement);
 
-  // Initialisation du mode de jeu
-  game.initializeFactory(game.getMode || "code-http");
-  game.gameSound.playSound("gameJoined", 0.1);
+	// Initialisation du mode de jeu
+	game.initializeFactory(game.getMode || "code-http");
+	game.gameSound.playSound("gameJoined", 0.1);
 
-  // Affichage de l'énigme
-  const entityElement = document.querySelector(".find-entity");
-  if (entityElement && game.puzzle.request) {
-    entityElement.innerHTML = game.puzzle.request;
-  }
-
+	// Affichage de l'énigme
+	if (game.puzzle.request) {
+		(page.qs("game.gameFindEntity") as HTMLElement).textContent =
+			game.puzzle.request;
+	}
 }
