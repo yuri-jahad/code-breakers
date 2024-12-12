@@ -3,7 +3,7 @@ import type { ProfileStats } from "@/types/profile/profile-type";
 import { IntervalType } from "@/types/game/game-turn.type";
 import { STATE } from "@/game";
 import { displayScore } from "@/features/score/score-display";
-import { displaySpeed } from "@/features/speed/speed-display";
+import { displayTypingSpeed } from "@/features/speed/speed-typing-display";
 import { displayTimeGame } from "@/features/time/time-display";
 import { isGameWin } from "@/features/game/game-win";
 import { getPlayer } from "@/features/player/player-get";
@@ -23,8 +23,9 @@ export default function game(game: GameInterface) {
 	game.setTurnTimeCompare = game.getTurnTime;
 
 	// Initial UI setup
-	(page.qs("game.gameCurrentState") as HTMLElement).textContent = "IN GAME";
-	(page.qs("sidebar.sidebarParams") as HTMLElement).style.display = "none";
+	page.makeText(page.qs("game.gameCurrentState") as HTMLElement, "IN GAME");
+	page.setAttribute(page.qs("sidebar.sidebarParamsContainer") as HTMLElement, "display", "none");
+
 	const start = Date.now();
 	game.state = STATE.GAME;
 	game.timerInterval = window.setInterval(() => displayTimeGame(start), 1000);
@@ -33,7 +34,7 @@ export default function game(game: GameInterface) {
 	const handleTurnTime = () => {
 		let typingStarted = false;
 		game.clearInterval(IntervalType.PLAYER_TURN);
-		(page.qs("game.gameInputAnswer") as HTMLInputElement).hidden = false;
+		page.setAttribute(page.qs("game.gameInputAnswer") as HTMLInputElement, "hidden", "false");
 		const interval = window.setInterval(async () => {
 			const currentTime = game.getTurnTime;
 
@@ -55,18 +56,14 @@ export default function game(game: GameInterface) {
 					const isPlayer = currentPlayer.id === 0;
 
 					if (isPlayer) {
-						(
-							page.qs("game.gameAnswerContainer") as HTMLElement
-						).classList.remove("hidden");
+						(page.qs("game.gameAnswerContainer") as HTMLElement).classList.remove("hidden");
 					} else {
-						(page.qs("game.gameLetterCount") as HTMLElement).style.display =
-							"none";
+						(page.qs("game.gameLetterCount") as HTMLElement).style.display = "none";
 					}
 				}
 				//game.setCurrentPlayer = players[game.currentPlayerIndex];
 				console.log(game.currentPlayerIndex, game);
-				const isNotPlayer =
-					game.getCurrentPlayer && game.getCurrentPlayer.id !== 0;
+				const isNotPlayer = game.getCurrentPlayer && game.getCurrentPlayer.id !== 0;
 
 				id = game.getCurrentPlayer?.id;
 
@@ -84,35 +81,21 @@ export default function game(game: GameInterface) {
 					if (!typingStarted) {
 						typingStarted = true;
 						// vérifier si la phrase est écrite correctement
-						const result = await animateTextTyping(
-							game.puzzle.response || "",
-							wordElement,
-							currentTime || 5
-						);
+						const result = await animateTextTyping(game.puzzle.response || "", wordElement, currentTime || 5);
 
 						if (result === game.puzzle.response) {
 							game.gameSound.playSound("puzzleSolved");
 
-							(page.qs("game.gamePlayerContent") as HTMLElement).classList.add(
-								"border border-green-500"
-							);
+							(page.qs("game.gamePlayerContent") as HTMLElement).classList.add("border border-green-500");
 							setTimeout(() => {
-								(
-									page.qs("game.gamePlayerContent") as HTMLElement
-								).classList.remove("border border-green-500");
+								(page.qs("game.gamePlayerContent") as HTMLElement).classList.remove("border border-green-500");
 							}, 100);
 
 							const currentPlayer = game.getCurrentPlayer;
 							if (game.getCurrentPlayer) {
 								game.getCurrentPlayer.speed.end = Date.now();
-								displaySpeed(
-									game.getCurrentPlayer.speed.end -
-										game.getCurrentPlayer.speed.start
-								);
-								const isComplete = isGameWin(
-									game.historique.size,
-									game.data?.length || 0
-								);
+								displayTypingSpeed(game.getCurrentPlayer.speed.end - game.getCurrentPlayer.speed.start);
+								const isComplete = isGameWin(game.historique.size, game.data?.length || 0);
 								console.log(game.historique.size, game.data?.length || 0);
 								if (isComplete) {
 									stateEnd(game);
@@ -139,10 +122,7 @@ export default function game(game: GameInterface) {
 					if (isDeath) {
 						console.log("Player died:", game.getCurrentPlayer);
 						game.getCurrentPlayer.status = "death";
-						game.setPlayerDeath = [
-							...game.getPlayerDeath,
-							game.getCurrentPlayer,
-						];
+						game.setPlayerDeath = [...game.getPlayerDeath, game.getCurrentPlayer];
 						game.setPlayers = game.getPlayers.filter(
 							(player: ProfileStats) => player.id !== game?.getCurrentPlayer?.id
 						);
@@ -174,7 +154,6 @@ export default function game(game: GameInterface) {
 
 export const updateTimerDisplay = (currentTime: number) => {
 	if (currentTime >= 0) {
-		(page.qs("infos.infosTurnTime") as HTMLElement).textContent =
-			currentTime.toString();
+		(page.qs("infos.infosTurnTime") as HTMLElement).textContent = currentTime.toString();
 	}
 };

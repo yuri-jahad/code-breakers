@@ -6,44 +6,35 @@ import { pageLoaderInstance as page } from "@/pageLoader";
 
 type WaitingInterval = ReturnType<typeof setInterval>;
 
-export default async function waiting(
-	game: GameInterface
-): Promise<WaitingInterval | null> {
+export default async function waiting(game: GameInterface): Promise<WaitingInterval | null> {
 	initializeWaitingState(game);
 	return startWaitingCounter(game);
 }
 
 function initializeWaitingState(game: GameInterface) {
-	const table: HTMLElement | null = document.querySelector("table");
-
-	if (!table) return;
 	page.setStyle(page.qs("helper.helperRules") as HTMLElement, "display", "none");
 	page.setStyle(page.qs("infos.infosCurrentPlayer") as HTMLElement, "display", "flex");
-	
+
 	(page.qs("infos.infosCurrentPlayer") as HTMLElement).classList.add("flex");
 
 	const numberOfPlayers = (game.getBot ?? 0) + 1;
-	const players = addPlayers(numberOfPlayers, game);
+	const players = addPlayers(numberOfPlayers);
 
 	if (!players) return null;
 	game.setPlayers = players.getPlayers;
 	game.state = STATE.WAITING;
 
-	(page.qs("game.gameStartAction") as HTMLButtonElement).textContent =
-		STATE.CANCEL_WAITING;
-
+	page.setAttribute(page.qs("game.gameStartAction") as HTMLButtonElement, "data-set-state", STATE.CANCEL_WAITING);
+	page.makeText(page.qs("game.gameStartAction") as HTMLButtonElement, STATE.CANCEL_WAITING);
+	console.log(STATE.CANCEL_WAITING, "STATE.CANCEL_WAITING");
 	updateWaitingUI(game.getWaitingCount);
 }
 
 function updateWaitingUI(count: number) {
-	(
-		page.qs("game.gameCurrentState") as HTMLElement
-	).textContent = `La partie va commencer dans ${count} secondes`;
+	page.makeText(page.qs("game.gameCurrentState") as HTMLElement, `La partie va commencer dans ${count} secondes`);
 }
 
-async function startWaitingCounter(
-	game: GameInterface
-): Promise<WaitingInterval | null> {
+async function startWaitingCounter(game: GameInterface): Promise<WaitingInterval | null> {
 	let gameWaitingCount = game.getWaitingCount;
 
 	return new Promise(resolve => {

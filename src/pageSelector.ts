@@ -18,10 +18,18 @@ export default class PageSelector {
 		return element as HTMLElement | null;
 	}
 
-	public makeText(text: string, element: HTMLElement): void {
+	public makeText(element: HTMLElement, text: string): void {
 		if (element) {
 			if (element instanceof HTMLElement) {
 				element.textContent = text;
+			}
+		}
+	}
+
+	public makeHTML(element: HTMLElement, html: string): void {
+		if (element) {
+			if (element instanceof HTMLElement) {
+				element.innerHTML = html;
 			}
 		}
 	}

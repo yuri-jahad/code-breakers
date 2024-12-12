@@ -6,8 +6,8 @@ export default function start(game: GameInterface) {
 	game.state = STATE.START;
 
 	page.setStyle(page.qs("game.gameStartAction") as HTMLElement, "display", "block");
-	page.setAttribute(page.qs("game.gameStartAction") as HTMLElement, "id", STATE.GAME);
-	page.makeText(STATE.END, page.qs("game.gameStartAction") as HTMLElement);
+	page.setAttribute(page.qs("game.gameStartAction") as HTMLElement, "data-set-state", STATE.GAME);
+	page.makeText(page.qs("game.gameStartAction") as HTMLElement, STATE.END);
 
 	// Initialisation du mode de jeu
 	game.initializeFactory(game.getMode || "code-http");
@@ -15,7 +15,6 @@ export default function start(game: GameInterface) {
 
 	// Affichage de l'énigme
 	if (game.puzzle.request) {
-		(page.qs("game.gameFindEntity") as HTMLElement).textContent =
-			game.puzzle.request;
+		page.makeText(page.qs("game.gameFindEntity") as HTMLElement, game.puzzle.request);
 	}
 }

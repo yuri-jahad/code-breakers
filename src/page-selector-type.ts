@@ -8,14 +8,17 @@ export const selectors = {
 	helper: {
 		helperRules: { selector: "#helper-rules" },
 	},
+	user: {
+		userAvatar: { selector: "#user-avatar" },
+		userSelectAvatar: { selector: "#user-select-avatar" },
+		userPseudo: { selector: "#user-pseudo" },
+	},
 	infos: {
 		infosCurrentMode: { selector: "#infos-current-mode" },
 		infosCurrentPlayer: { selector: "#infos-current-player" },
 		infosTime: { selector: "#infos-time" },
 		infosTypingSpeed: { selector: "#infos-typing-speed" },
 		infosTurnTime: { selector: "#infos-turn-time" },
-		userSelectAvatar: { selector: "#user-select-avatar" },
-		userAvatar: { selector: "#user-avatar" },
 	},
 	game: {
 		gameAnswerContainer: { selector: "#game-answer-container" },
@@ -33,10 +36,10 @@ export const selectors = {
 		sidebarChatInput: { selector: "#sidebar-chat-input" },
 		sidebarChatInputContainer: { selector: "#sidebar-chat-input-container" },
 		sidebarChatSend: { selector: "#sidebar-chat-send" },
-		sidebarParams: { selector: "#sidebar-params" },
-		sidebarParamsBtn: { selector: ".sidebar-params-btn" },
-		sidebarChat: { selector: ".sidebar-chat" },
-		sidebarChatBtn: { selector: ".sidebar-chat-btn" },
+		sidebarParamsContainer: { selector: "#sidebar-params-container" },
+		sidebarParamsBtn: { selector: "#sidebar-params-btn" },
+		sidebarChat: { selector: "#sidebar-chat" },
+		sidebarChatBtn: { selector: "#sidebar-chat-btn" },
 	},
 	params: {
 		paramsSelectMode: { selector: "#params-select-mode" },
@@ -84,10 +87,7 @@ export type AllNestedKeys = {
 	[K in SelectorsKeysType]: keyof SelectorsType[K];
 }[SelectorsKeysType];
 
-export type ChildSelectorRenderType = Record<
-	AllNestedKeys,
-	HTMLElement | NodeListOf<HTMLElement> | null
->;
+export type ChildSelectorRenderType = Record<AllNestedKeys, HTMLElement | NodeListOf<HTMLElement> | null>;
 
 export type SelectorPath = keyof {
 	[K in SelectorsKeysType]: {
@@ -95,5 +95,4 @@ export type SelectorPath = keyof {
 	};
 }[SelectorsKeysType];
 
-export type SelectorPathAutocomplete<T extends SelectorsKeysType> =
-	`${T}.${keyof SelectorsType[T] & string}`;
+export type SelectorPathAutocomplete<T extends SelectorsKeysType> = `${T}.${keyof SelectorsType[T] & string}`;

@@ -1,8 +1,9 @@
+import { pageLoaderInstance as page } from "@/pageLoader";
 export function hideGame() {
-    const players: HTMLElement | null = document.querySelector(".players");
-    const writeInput: HTMLInputElement | null = document.querySelector("#write");
-    if (players && writeInput) {
-      writeInput.hidden = true;
-      players.innerHTML = "";
-  }
+	page.setAttribute(
+		page.qs("game.gameAnswerContainer") as HTMLElement,
+		"hidden",
+		"true"
+	);
+	page.makeText(page.qs("game.gamePlayerContent") as HTMLElement, "");
 }

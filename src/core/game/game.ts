@@ -9,6 +9,7 @@ import { GameFactoryInterface } from "@/modes/modes-factory";
 import GameSound from "../sound/sound.game";
 import { circle } from "@/utils/circle";
 import playerView from "@/features/player/player-view";
+import { pageLoaderInstance as page } from "@/pageLoader";
 
 export class Game extends Turn implements GameInterface {
 	state: GameState;
@@ -46,19 +47,15 @@ export class Game extends Turn implements GameInterface {
 	}
 
 	addPlayersHTML(radius: number) {
-		const playersHTML = document.querySelector(".players");
-		if (playersHTML) {
-			this._players.forEach((player, index) => {
-				if (this.getMinHeart) {
-					const { x, y } = circle(radius, index, this._players.length);
-					playersHTML.innerHTML += playerView.createPlayerElement(
-						player,
-						{ x, y },
-						this._players.length
-					);
-				}
-			});
-		}
+		this._players.forEach((player, index) => {
+			if (this.getMinHeart) {
+				const { x, y } = circle(radius, index, this._players.length);
+				page.makeHTML(
+					page.qs("game.gamePlayerContent") as HTMLElement,
+					playerView.createPlayerElement(player, { x, y }, this._players.length)
+				);
+			}
+		});
 	}
 	/**
 	 * Initialise le mode de jeu
@@ -93,15 +90,12 @@ export class Game extends Turn implements GameInterface {
 		const currentIndex = this._players.findIndex(
 			p => p.id === this.currentPlayer?.id
 		);
-		const writeInput: HTMLInputElement | null =
-			document.querySelector("#write");
-		if (!writeInput) return;
 
-		const findEntityElement: HTMLElement | null =
-			document.querySelector(".find-entity");
-		if (!findEntityElement) return;
 		this.setPuzzle();
-		findEntityElement.textContent = this.puzzle?.request || "";
+		page.makeText(
+			page.qs("game.gameFindEntity") as HTMLElement,
+			this.puzzle?.request || ""
+		);
 
 		const nextIndex = (currentIndex + 1) % this._players.length;
 
@@ -111,8 +105,9 @@ export class Game extends Turn implements GameInterface {
 
 		const turnHandler = this.turnHandler;
 		if (turnHandler) turnHandler();
-		writeInput.value = "";
-		writeInput.hidden = this.players[nextIndex].id > 0;
+		(page.qs("game.gameInputAnswer") as HTMLInputElement).value = "";
+		(page.qs("game.gameInputAnswer") as HTMLInputElement).hidden =
+			this.players[nextIndex].id > 0;
 	}
 
 	get getPlayerDeath(): ProfileStats[] {

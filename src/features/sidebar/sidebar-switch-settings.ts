@@ -1,29 +1,25 @@
+import { pageLoaderInstance as page } from "@/pageLoader";
+
 export default function sidebarSwitchSettings() {
-	const selectEffect = ["bg-purple-500/10", "text-purple-400"];
-	const elements = {
-		paramsBtn: document.querySelector(".sidebar-params-btn"),
-		chatBtn: document.querySelector(".sidebar-chat-btn"),
-		params: document.querySelector(".sidebar-params"),
-		chat: document.querySelector(".sidebar-chat"),
-	}
+    const selectEffect = ["bg-purple-500/10", "text-purple-400"];
     
-	if (!Object.values(elements).every((element) => element)) return;
-
-	elements.paramsBtn?.addEventListener("click", () => {
-		if (!elements.chat?.classList.contains("hidden")) {
-			elements.chat?.classList.add("hidden");
-			elements.params?.classList.remove("hidden");
-			elements.chatBtn?.classList.remove(...selectEffect);
-			elements.paramsBtn?.classList.add(...selectEffect);
-		}
-	});
-
-	elements.chatBtn?.addEventListener("click", () => {
-		if (!elements.params?.classList.contains("hidden")) {
-			elements.params?.classList.add("hidden");
-			elements.chat?.classList.remove("hidden");
-			elements.paramsBtn?.classList.remove(...selectEffect);
-			elements.chatBtn?.classList.add(...selectEffect);
-		}
-	});
+    (page.qs("sidebar.sidebarParamsBtn") as HTMLElement)?.addEventListener("click", () => {
+        // Affiche les paramètres
+        (page.qs("sidebar.sidebarChatContainer") as HTMLElement)?.classList.add("hidden");
+        (page.qs("sidebar.sidebarParamsContainer") as HTMLElement)?.classList.remove("hidden");
+        
+        // Met à jour les styles des boutons
+        (page.qs("sidebar.sidebarChatBtn") as HTMLElement)?.classList.remove(...selectEffect);
+        (page.qs("sidebar.sidebarParamsBtn") as HTMLElement)?.classList.add(...selectEffect);
+    });
+    
+    (page.qs("sidebar.sidebarChatBtn") as HTMLElement)?.addEventListener("click", () => {
+        // Affiche le chat
+        (page.qs("sidebar.sidebarParamsContainer") as HTMLElement)?.classList.add("hidden");
+        (page.qs("sidebar.sidebarChatContainer") as HTMLElement)?.classList.remove("hidden");
+        
+        // Met à jour les styles des boutons
+        (page.qs("sidebar.sidebarParamsBtn") as HTMLElement)?.classList.remove(...selectEffect);
+        (page.qs("sidebar.sidebarChatBtn") as HTMLElement)?.classList.add(...selectEffect);
+    });
 }

@@ -1,8 +1,4 @@
-import type {
-	SoundController,
-	SoundEffectType,
-	SoundCollection,
-} from "@/types/game/game-sound.type";
+import type { SoundController, SoundEffectType, SoundCollection } from "@/types/game/game-sound.type";
 
 export default class GameSound implements SoundController {
 	private sounds: SoundCollection;
@@ -13,7 +9,7 @@ export default class GameSound implements SoundController {
 			puzzleFailed: new Audio("/public/sounds/puzzle-failed.wav"),
 			puzzleHeartWin: new Audio("/public/sounds/puzzle-heart-win.wav"),
 			puzzleHeartFailed: new Audio("/public/sounds/puzzle-heart-failed.wav"),
-			gameJoined: new Audio("/public/sounds/puzzle-joined.mp3")
+			gameJoined: new Audio("/public/sounds/puzzle-joined.mp3"),
 		};
 	}
 

@@ -46,7 +46,7 @@
 				<div class="flex items-center">
 					<input
 						type="text"
-						id="pseudo"
+						id="user-pseudo"
 						placeholder="Pseudo"
 						class="bg-slate-800/50 right-0 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-60 sm:w-60"
 					/>
@@ -69,7 +69,7 @@
 	</div>
 
 	<!-- Main Content -->
-	<div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto p-2 sm:p-4">
+	<div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto">
 		<!-- Main Game Area -->
 		<div class="flex-1 relative">
 			<div id="infos-current-mode"></div>
@@ -261,7 +261,7 @@
 			<div
 				class="mx-auto w-full flex justify-center items-center relative top-6 sm:top-10"
 			>
-				<canvas id="game-player-content" relative"></canvas>
+				<div id="game-player-content" class="relative"></div>
 				<div
 				id="game-find-entity"
 					class="absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
@@ -274,7 +274,7 @@
 			>
 				<div
 					id="game-answer-container"
-					class="relative wordmx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
+					class="relative word-wrap mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
 				>
 					<input
 						id="game-input-answer"
@@ -300,7 +300,8 @@
 			<!-- Menu de navigation -->
 			<div class="flex gap-1 p-2 border-b border-white/5">
 				<button
-					class="sidebar-params-btn flex items-center bg-purple-500/10 text-gray-400 text-purple-400 gap-2 px-4 py-2 rounded-lg hover:bg-purple-500/20 transition-all duration-300"
+					id="sidebar-params-btn"
+					class="flex items-center bg-purple-500/10 text-gray-400 text-purple-400 gap-2 px-4 py-2 rounded-lg hover:bg-purple-500/20 transition-all duration-300"
 				>
 					<svg
 						class="w-4 h-4"
@@ -318,7 +319,7 @@
 					<span class="text-sm">Paramètres</span>
 				</button>
 				<button
-					id="game-chat-btn"
+					id="sidebar-chat-btn"
 					class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
 				>
 					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -335,19 +336,19 @@
 
 			<!-- Chat Header -->
 
-			<div class="sidebar-content w-full h-full relative">
+			<div id="sidebar-content" class="w-full h-full relative">
 				<div  id="sidebar-chat-container" class="hidden w-full h-[100%]">
 					<!-- Chat Input -->
 					<div
 						id="sidebar-chat-messages"
-						class="h-[90%] w-full border-t border-white/5"
+						class="h-[90%] w-full border-t  border-white/5"
 					></div>
 
 					<div id="sidebar-chat-input-container" class="h-[10%] relative">
 						<input
 							id="sidebar-chat-input"
 							type="text"
-							class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0 pr-12 border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
+							class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0  border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
 							placeholder="Tapez votre message..."
 						/>
 						<button
@@ -371,7 +372,7 @@
 					</div>
 				</div>
 				<div
-					id="sidebar-params"
+					id="sidebar-params-container"
 					class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
 				>
 					<div class="p-4 space-y-2">

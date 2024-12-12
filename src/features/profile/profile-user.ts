@@ -1,44 +1,46 @@
 import UserStorage from "@/core/user/user.storage";
 import UserProfile from "@/core/user/user.profile";
+import { pageLoaderInstance as page } from "@/pageLoader";
 
 export default async function handleUserRegistration() {
-	const avatarElement: HTMLInputElement | null =
-		document.querySelector("#avatar");
-	const pseudoElement: HTMLInputElement | null =
-		document.querySelector("#pseudo");
-	const playerAvatar: HTMLImageElement | null =
-		document.querySelector("#playerAvatar");
-	if (!pseudoElement || !avatarElement || !playerAvatar) return;
-
 	const { avatar, pseudo } = UserStorage.getUserInfo();
-	playerAvatar.src = avatar;
-	pseudoElement.placeholder = pseudo;
 
-	pseudoElement.addEventListener("keyup", (e: KeyboardEvent) => {
-		console.log(pseudoElement.value, "pseudo.value");
+	page.setAttribute(page.qs("user.userAvatar") as HTMLElement, "src", avatar);
+	page.setAttribute(page.qs("user.userPseudo") as HTMLElement, "placeholder", pseudo);
+
+	(page.qs("user.userPseudo") as HTMLInputElement).addEventListener("keyup", (e: KeyboardEvent) => {
 		if (e.key === "Enter") {
-			if (pseudoElement.value.length > 2) {
+			if ((page.qs("user.userPseudo") as HTMLInputElement).value.length > 2) {
 				const { avatar } = UserStorage.getUserInfo();
-				const userDataStorage = { pseudo: pseudoElement.value, avatar };
+				const userDataStorage = { pseudo: (page.qs("user.userPseudo") as HTMLInputElement).value, avatar };
 				UserStorage.saveUserInfo(userDataStorage);
 				UserProfile.setProfile(userDataStorage);
 			}
 		}
 	});
 
-	avatarElement.addEventListener("change", (e: Event) => {
+	(page.qs("user.userSelectAvatar") as HTMLInputElement).addEventListener("change", (e: Event) => {
 		e.preventDefault();
-		if (avatarElement.files && avatarElement.files[0]) {
+
+		const fileInput = page.qs("user.userSelectAvatar") as HTMLInputElement;
+		const file = fileInput.files?.[0];
+
+		if (file) {
 			const { pseudo } = UserStorage.getUserInfo();
 			const reader = new FileReader();
+
 			reader.onload = e => {
 				const imageDataUrl = e.target?.result as string;
 				console.log(imageDataUrl, "imageDataUrl");
-				playerAvatar.src = imageDataUrl;
-				UserStorage.saveUserInfo({ pseudo, avatar: imageDataUrl });
-				UserProfile.setProfile({ pseudo, avatar: imageDataUrl });
+
+				page.setAttribute(page.qs("user.userAvatar") as HTMLElement, "src", imageDataUrl);
+
+				const userInfo = { pseudo, avatar: imageDataUrl };
+				UserStorage.saveUserInfo(userInfo);
+				UserProfile.setProfile(userInfo);
 			};
-			reader.readAsDataURL(avatarElement.files[0]);
+
+			reader.readAsDataURL(file);
 		}
 	});
 }

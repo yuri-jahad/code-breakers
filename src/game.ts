@@ -7,7 +7,7 @@ import stateStart from "@/states/start";
 import stateWaiting from "@/states/waiting";
 import stateGame from "@/states/game";
 import stateEnd from "@/states/end";
-import { displaySpeed } from "@/features/speed/speed-display";
+import { displayTypingSpeed } from "@/features/speed/speed-typing-display";
 import { isGameWin } from "@/features/game/game-win";
 import { getPlayer } from "@/features/player/player-get";
 import { updateScore } from "@/features/score/score-update";
@@ -35,7 +35,7 @@ export default async function initGame() {
 			if (game.state === STATE.WAITING) {
 				game.clearInterval(IntervalType.WAIT_STATE);
 				stateInactive(game);
-			} else if (target.id === STATE.INACTIVE || target.id === STATE.END) {
+			} else if (target.dataset.setState === STATE.INACTIVE || target.dataset.setState === STATE.END) {
 				game.setInterval(
 					IntervalType.WAIT_STATE,
 					(await stateWaiting(game)) as IntervalId
@@ -72,7 +72,7 @@ export default async function initGame() {
 					wordElement.textContent = "";
 					target.value = "";
 					if (currentPlayer) {
-						displaySpeed(currentPlayer.speed.end - currentPlayer.speed.start);
+						displayTypingSpeed(currentPlayer.speed.end - currentPlayer.speed.start);
 					}
 					const isComplete = isGameWin(
 						game.historique.size,
