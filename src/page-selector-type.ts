@@ -19,7 +19,10 @@ export const selectors = {
 		infosTime: { selector: "#infos-time" },
 		infosTypingSpeed: { selector: "#infos-typing-speed" },
 		infosTurnTime: { selector: "#infos-turn-time" },
+		infosCorrectWord: { selector: "#infos-correct-word" },
+		infosFailWord: { selector: "#infos-fail-word" },
 	},
+
 	game: {
 		gameAnswerContainer: { selector: "#game-answer-container" },
 		gameInputAnswer: { selector: "#game-input-answer" },

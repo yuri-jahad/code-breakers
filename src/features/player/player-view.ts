@@ -36,7 +36,7 @@ export default {
 												? "border-violet-700/30 hover:border-violet-700/50 transition-all duration-300 shadow-lg hover:shadow-violet-700/20 transform hover:scale-105"
 												: "border-gray-500/50 hover:border-gray-500/50 transition-all duration-300 shadow-lg hover:shadow-gray-500/20 transform hover:scale-105"
 										}"/>
-                <div class="word text-white" style="font-size: ${baseSize / 5}px"></div>
+                <div id="player-answer" class=" text-white" style="font-size: ${baseSize / 5}px"></div>
             </div>
         </div>`;
 	},

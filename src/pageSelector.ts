@@ -1,16 +1,10 @@
-import {
-	BaseSelectorRenderType,
-	SelectorConfig,
-	BaseSelectorType,
-} from "@/page-selector-type";
+import { BaseSelectorRenderType, SelectorConfig, BaseSelectorType } from "@/page-selector-type";
 
 export default class PageSelector {
-	public getSelector(
-		selector: string,
-		all: boolean = false
-	): HTMLElement | NodeListOf<HTMLElement> | null {
+	public getSelector(selector: string, all: boolean = false): HTMLElement | NodeListOf<HTMLElement> | null {
 		if (all) {
 			const elements = document.querySelectorAll(selector);
+
 			return elements as NodeListOf<HTMLElement>;
 		}
 
@@ -34,11 +28,7 @@ export default class PageSelector {
 		}
 	}
 
-	public setAttribute(
-		element: HTMLElement,
-		attribute: string,
-		value: string
-	): void {
+	public setAttribute(element: HTMLElement, attribute: string, value: string): void {
 		if (element) {
 			if (element instanceof HTMLElement) {
 				element.setAttribute(attribute, value);
@@ -61,14 +51,9 @@ export default class PageSelector {
 					[key: string]: HTMLElement | NodeListOf<HTMLElement> | null;
 				} = {};
 
-				Object.entries(sectionValue as Record<string, SelectorConfig>).forEach(
-					([elementKey, elementValue]) => {
-						sectionSelectors[elementKey] = this.getSelector(
-							elementValue.selector,
-							elementValue.all ?? false
-						);
-					}
-				);
+				Object.entries(sectionValue as Record<string, SelectorConfig>).forEach(([elementKey, elementValue]) => {
+					sectionSelectors[elementKey] = this.getSelector(elementValue.selector, elementValue.all ?? false);
+				});
 
 				selectors[sectionKey] = sectionSelectors;
 			}

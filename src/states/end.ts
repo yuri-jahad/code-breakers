@@ -6,10 +6,8 @@ import { pageLoaderInstance as page } from "@/pageLoader";
 export default function stateEnd(game: GameInterface) {
 	game.state = "end";
 
-	(page.qs("game.gameCurrentState") as HTMLElement).textContent = STATE.END;
-	(page.qs("game.gameStartAction") as HTMLButtonElement).id = STATE.END;
-	(page.qs("game.gameStartAction") as HTMLButtonElement).textContent =
-		STATE.START;
+	page.makeText(page.qs("game.gameCurrentState") as HTMLElement, STATE.END);
+	page.makeText(page.qs("game.gameStartAction") as HTMLButtonElement, STATE.START);
 	clearInterval(game.timerInterval as number);
 	game.timerInterval = null;
 	resetGame(game);

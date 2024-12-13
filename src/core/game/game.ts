@@ -87,15 +87,10 @@ export class Game extends Turn implements GameInterface {
 
 		this.clearInterval(IntervalType.PLAYER_TURN);
 
-		const currentIndex = this._players.findIndex(
-			p => p.id === this.currentPlayer?.id
-		);
+		const currentIndex = this._players.findIndex(p => p.id === this.currentPlayer?.id);
 
 		this.setPuzzle();
-		page.makeText(
-			page.qs("game.gameFindEntity") as HTMLElement,
-			this.puzzle?.request || ""
-		);
+		page.makeText(page.qs("game.gameFindEntity") as HTMLElement, this.puzzle?.request || "");
 
 		const nextIndex = (currentIndex + 1) % this._players.length;
 
@@ -106,8 +101,7 @@ export class Game extends Turn implements GameInterface {
 		const turnHandler = this.turnHandler;
 		if (turnHandler) turnHandler();
 		(page.qs("game.gameInputAnswer") as HTMLInputElement).value = "";
-		(page.qs("game.gameInputAnswer") as HTMLInputElement).hidden =
-			this.players[nextIndex].id > 0;
+		(page.qs("game.gameInputAnswer") as HTMLInputElement).hidden = this.players[nextIndex].id > 0;
 	}
 
 	get getPlayerDeath(): ProfileStats[] {

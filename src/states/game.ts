@@ -6,19 +6,18 @@ import { displayScore } from "@/features/score/score-display";
 import { displayTypingSpeed } from "@/features/speed/speed-typing-display";
 import { displayTimeGame } from "@/features/time/time-display";
 import { isGameWin } from "@/features/game/game-win";
-import { getPlayer } from "@/features/player/player-get";
 import { removeLife } from "@/features/heart/heart-delete";
 import stateEnd from "@/states/end";
 import { updateScore } from "@/features/score/score-update";
 import { data } from "@/modes/modes-factory";
 import { animateTextTyping } from "@/utils/animationTextTyping";
 import { pageLoaderInstance as page } from "@/pageLoader";
+import extractPlayer from "@/features/player/player-extract";
 
 export default function game(game: GameInterface) {
 	const INITIAL_TURN_COUNT = game.turnCurrentPlayer?.turnCount || 0;
 	let currentTurnCount = INITIAL_TURN_COUNT;
 	let id = null;
-	let wordElement: null | HTMLElement = null;
 	game.data = data || null;
 	game.setTurnTimeCompare = game.getTurnTime;
 
@@ -34,7 +33,7 @@ export default function game(game: GameInterface) {
 	const handleTurnTime = () => {
 		let typingStarted = false;
 		game.clearInterval(IntervalType.PLAYER_TURN);
-		page.setAttribute(page.qs("game.gameInputAnswer") as HTMLInputElement, "hidden", "false");
+		//page.setAttribute(page.qs("game.gameInputAnswer") as HTMLInputElement, "hidden", "false");
 		const interval = window.setInterval(async () => {
 			const currentTime = game.getTurnTime;
 
@@ -46,10 +45,6 @@ export default function game(game: GameInterface) {
 					game.getCurrentPlayer.speed.start = Date.now();
 					displayScore(game.getCurrentPlayer);
 				}
-
-				// if (isHTMLElement(selectors.infos.infosTurnTime) && currentTime) {
-				// 	selectors.infos.infosTurnTime.textContent = currentTime.toString();
-				// }
 
 				const currentPlayer = game.players[game.currentPlayerIndex];
 				if (currentPlayer) {
@@ -72,16 +67,14 @@ export default function game(game: GameInterface) {
 
 				// si le joueur n'est pas le bot
 				if (isNotPlayer && id) {
-					const playerElement = getPlayer(id);
-					if (!playerElement) return;
+					const playerExtract = extractPlayer(id);
+					if (!playerExtract) return;
 					// récupérer l'élément de la phrase à écrire
-					wordElement = playerElement.querySelector(".word");
-					if (!wordElement) return;
 
 					if (!typingStarted) {
 						typingStarted = true;
 						// vérifier si la phrase est écrite correctement
-						const result = await animateTextTyping(game.puzzle.response || "", wordElement, currentTime || 5);
+						const result = await animateTextTyping(game.puzzle.response || "", playerExtract.answer, currentTime || 5);
 
 						if (result === game.puzzle.response) {
 							game.gameSound.playSound("puzzleSolved");
