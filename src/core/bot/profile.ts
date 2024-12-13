@@ -1,4 +1,4 @@
-import type { ProfileStats } from "@/types/profile/profile-type";
+import type { ProfileStats } from "@/types/profile/type";
 
 class BotProfile {
 	private static instance: BotProfile | null = null;

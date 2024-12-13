@@ -1,4 +1,4 @@
-import type { ModesNames } from "@/types/game/game-modes.type";
+import type { ModesNames } from "@/types/game/modes";
 
 export type ParamsType = {
 	minHeart: number | null;

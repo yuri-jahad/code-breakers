@@ -1,6 +1,6 @@
 import { Cache, ModuleType } from "@/types";
 import { PAGES_ROUTE } from "@/routes";
-import PageSelector from "@/pageSelector";
+import PageSelector from "@/page-selector";
 import {
 	selectors,
 	BaseSelectorRenderType,

@@ -1,4 +1,4 @@
-import { GameInterface } from "@/types/game/game-type";
+import { GameInterface } from "@/types/game/game";
 
 export function hideGame() {
   const players: HTMLElement | null = document.querySelector(".players");

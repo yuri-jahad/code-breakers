@@ -1,13 +1,19 @@
-import { GameInterface } from "@/types/game/game-type";
+import { GameInterface } from "@/types/game/game";
 import { STATE } from "@/game";
-import { pageLoaderInstance as page } from "@/pageLoader";
+import { pageLoaderInstance as page } from "@/page-loader";
+import { addPlayers } from "@/features/player/add";
 
 export default function start(game: GameInterface) {
 	game.state = STATE.START;
+	const numberOfPlayers = (game.getBot ?? 0) + 1;
+	const players = addPlayers(numberOfPlayers);
 
-	page.setStyle(page.qs("game.gameStartAction") as HTMLElement, "display", "block");
-	page.setAttribute(page.qs("game.gameStartAction") as HTMLElement, "data-set-state", STATE.GAME);
-	page.makeText(page.qs("game.gameStartAction") as HTMLElement, STATE.END);
+	if (!players) return null;
+	game.setPlayers = players.getPlayers;
+	page.setStyle(page.qs("game.startGameAction") as HTMLElement, "display", "block");
+	page.makeText(page.qs("game.startGameAction") as HTMLElement, STATE.END);
+	console.log(page.qs("infos.infosSpace") as HTMLElement);
+	(page.qs("infos.infosSpace") as HTMLElement).classList.remove("hidden");
 
 	// Initialisation du mode de jeu
 	game.initializeFactory(game.getMode || "code-http");
@@ -15,6 +21,6 @@ export default function start(game: GameInterface) {
 
 	// Affichage de l'énigme
 	if (game.puzzle.request) {
-		page.makeText(page.qs("game.gameFindEntity") as HTMLElement, game.puzzle.request);
+		page.makeText(page.qs("game.currentPuzzle") as HTMLElement, game.puzzle.request);
 	}
 }

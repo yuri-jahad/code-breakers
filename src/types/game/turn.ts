@@ -1,5 +1,5 @@
-import { ParamsType } from "../../core/game/game-parameters";
-import { ProfileStats } from "../profile/profile-type";
+import { ParamsType } from "../../core/game/parameters";
+import { ProfileStats } from "../profile/type";
 
 export type IntervalId = number | null;
 export type TurnHandler = () => void;

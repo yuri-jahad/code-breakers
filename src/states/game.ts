@@ -1,18 +1,18 @@
-import type { GameInterface } from "@/types/game/game-type";
-import type { ProfileStats } from "@/types/profile/profile-type";
-import { IntervalType } from "@/types/game/game-turn.type";
+import type { GameInterface } from "@/types/game/game";
+import type { ProfileStats } from "@/types/profile/type";
+import { IntervalType } from "@/types/game/turn";
 import { STATE } from "@/game";
-import { displayScore } from "@/features/score/score-display";
-import { displayTypingSpeed } from "@/features/speed/speed-typing-display";
-import { displayTimeGame } from "@/features/time/time-display";
-import { isGameWin } from "@/features/game/game-win";
-import { removeLife } from "@/features/heart/heart-delete";
+import { displayScore } from "@/features/score/display";
+import { displayTypingSpeed } from "@/features/speed/display-typing";
+import { displayTimeGame } from "@/features/time/display";
+import { isGameWin } from "@/features/game/win";
+import { removeLife } from "@/features/heart/delete";
 import stateEnd from "@/states/end";
-import { updateScore } from "@/features/score/score-update";
-import { data } from "@/modes/modes-factory";
-import { animateTextTyping } from "@/utils/animationTextTyping";
-import { pageLoaderInstance as page } from "@/pageLoader";
-import extractPlayer from "@/features/player/player-extract";
+import { updateScore } from "@/features/score/update";
+import { data } from "@/modes/factory";
+import { animateTextTyping } from "@/utils/animation-text-typing";
+import { pageLoaderInstance as page } from "@/page-loader";
+import extractPlayer from "@/features/player/extract";
 
 export default function game(game: GameInterface) {
 	const INITIAL_TURN_COUNT = game.turnCurrentPlayer?.turnCount || 0;
@@ -23,7 +23,7 @@ export default function game(game: GameInterface) {
 
 	// Initial UI setup
 	page.makeText(page.qs("game.gameCurrentState") as HTMLElement, "IN GAME");
-	page.setAttribute(page.qs("sidebar.sidebarParamsContainer") as HTMLElement, "display", "none");
+	page.setAttribute(page.qs("sidebar.paramsSpace") as HTMLElement, "display", "none");
 
 	const start = Date.now();
 	game.state = STATE.GAME;
@@ -51,9 +51,9 @@ export default function game(game: GameInterface) {
 					const isPlayer = currentPlayer.id === 0;
 
 					if (isPlayer) {
-						(page.qs("game.gameAnswerContainer") as HTMLElement).classList.remove("hidden");
+						(page.qs("game.answerSpace") as HTMLElement).classList.remove("hidden");
 					} else {
-						(page.qs("game.gameLetterCount") as HTMLElement).style.display = "none";
+						(page.qs("game.letterCount") as HTMLElement).style.display = "none";
 					}
 				}
 				//game.setCurrentPlayer = players[game.currentPlayerIndex];
@@ -79,9 +79,9 @@ export default function game(game: GameInterface) {
 						if (result === game.puzzle.response) {
 							game.gameSound.playSound("puzzleSolved");
 
-							(page.qs("game.gamePlayerContent") as HTMLElement).classList.add("border border-green-500");
+							(page.qs("game.activePlayers") as HTMLElement).classList.add("border border-green-500");
 							setTimeout(() => {
-								(page.qs("game.gamePlayerContent") as HTMLElement).classList.remove("border border-green-500");
+								(page.qs("game.activePlayers") as HTMLElement).classList.remove("border border-green-500");
 							}, 100);
 
 							const currentPlayer = game.getCurrentPlayer;
@@ -147,6 +147,6 @@ export default function game(game: GameInterface) {
 
 export const updateTimerDisplay = (currentTime: number) => {
 	if (currentTime >= 0) {
-		(page.qs("infos.infosTurnTime") as HTMLElement).textContent = currentTime.toString();
+		(page.qs("infos.turnTime") as HTMLElement).textContent = currentTime.toString();
 	}
 };

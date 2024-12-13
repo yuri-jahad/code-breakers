@@ -1,17 +1,17 @@
-import { pageLoaderInstance as page } from "@/pageLoader";
-import { IntervalId, IntervalType } from "@/types/game/game-turn.type";
+import { pageLoaderInstance as page } from "@/page-loader";
+import { IntervalId, IntervalType } from "@/types/game/turn";
 import { Game } from "@/core/game/game";
-import { GameFactory } from "@/modes/modes-factory";
+import { GameFactory } from "@/modes/factory";
 import stateInactive from "@/states/inactive";
 import stateStart from "@/states/start";
 import stateWaiting from "@/states/waiting";
 import stateGame from "@/states/game";
 import stateEnd from "@/states/end";
-import { displayTypingSpeed } from "@/features/speed/speed-typing-display";
-import { isGameWin } from "@/features/game/game-win";
-import { updateScore } from "@/features/score/score-update";
-import handleUserRegistration from "@/features/profile/profile-user";
-import extractPlayer from "@/features/player/player-extract";
+import { displayTypingSpeed } from "@/features/speed/display-typing";
+import { isGameWin } from "@/features/game/win";
+import { updateScore } from "@/features/score/update";
+import handleUserRegistration from "@/features/profile/user";
+import extractPlayer from "@/features/player/extract";
 
 export const STATE = {
 	INACTIVE: "inactive",
@@ -27,7 +27,7 @@ export default async function initGame() {
 	const game = new Game(gameFactory);
 	stateInactive(game);
 	await handleUserRegistration();
-	(page.qs("game.gameStartAction") as HTMLElement).addEventListener("click", async function () {
+	(page.qs("game.startGameAction") as HTMLElement).addEventListener("click", async function () {
 		if (game.state === STATE.WAITING) {
 			game.clearInterval(IntervalType.WAIT_STATE);
 			stateInactive(game);
@@ -40,7 +40,7 @@ export default async function initGame() {
 		}
 	});
 
-	(page.qs("game.gameInputAnswer") as HTMLInputElement).addEventListener("keyup", async event => {
+	(page.qs("game.inputAnswer") as HTMLInputElement).addEventListener("keyup", async event => {
 		const target = event.target as HTMLInputElement;
 		const playerExtract = extractPlayer(game.getCurrentPlayer?.id || 0);
 		if (!playerExtract) return;
@@ -69,7 +69,8 @@ export default async function initGame() {
 			} else {
 				game.gameSound.playSound("puzzleFailed");
 			}
-			(page.qs("game.gameInputAnswer") as HTMLInputElement).value = "";
+			(page.qs("game.inputAnswer") as HTMLInputElement).value = "";
 		}
 	});
 }
+

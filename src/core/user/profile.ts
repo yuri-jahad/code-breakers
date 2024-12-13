@@ -1,5 +1,5 @@
-import UserStorage from "@/core/user/user.storage";
-import type { ProfileStats } from "@/types/profile/profile-type";
+import UserStorage from "@/core/user/storage";
+import type { ProfileStats } from "@/types/profile/type";
 
 class UserProfile {
 	private static instance: UserProfile | null = null;

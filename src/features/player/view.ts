@@ -1,4 +1,4 @@
-import { ProfileStats } from "@/types/profile/profile-type";
+import { ProfileStats } from "@/types/profile/type";
 
 export default {
 	createHeartIcons(heart: number, isBot: boolean) {

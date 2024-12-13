@@ -1,21 +1,16 @@
 import type { PuzzleType } from "@/types/data-type";
-import type { ModeCodeHttpType } from "@/types/game/game-modes.type";
-import { GameMode } from "@/core/game/game-modes";
+import type { ModeEnglishType } from "@/types/game/modes";
+import { GameMode } from "@/core/game/modes";
 
-export default class HttpCodeGame extends GameMode<
-  ModeCodeHttpType,
-  PuzzleType
-> {
-  constructor(
-    items: ModeCodeHttpType[],
-    historique: Set<PuzzleType["response"]>
-  ) {
+export default class EnglishGame extends GameMode<ModeEnglishType, PuzzleType> {
+  constructor(items: ModeEnglishType[], historique: Set<PuzzleType["response"]>) {
     super(items, historique);
     this.generate = this.generate.bind(this);
   }
+
   generate(): PuzzleType | null {
     for (let i of this.items) {
-      const obj = { request: i.message, response: i.code };
+      const obj = { request: i.en, response: i.fr };
       if (!this.modeHistory.has(obj.response)) {
         this.modeHistory.add(obj.response);
         this.targetObject = obj;
@@ -26,9 +21,9 @@ export default class HttpCodeGame extends GameMode<
   }
 
   add(): PuzzleType | null {
-    const code = this.generate();
-    if (code) {
-      return code;
+    const phrase = this.generate();
+    if (phrase) {
+      return phrase;
     }
     return null;
   }

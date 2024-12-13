@@ -1,4 +1,4 @@
-import getPlayer from "@/features/player/player-get";
+import getPlayer from "@/features/player/get";
 
 interface PlayerElements {
     player: HTMLElement;

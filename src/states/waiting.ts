@@ -1,8 +1,8 @@
-import type { GameInterface } from "@/types/game/game-type";
+import type { GameInterface } from "@/types/game/game";
 import { STATE } from "@/game";
-import { addPlayers } from "@/features/player/player-add";
-import { IntervalType } from "@/types/game/game-turn.type";
-import { pageLoaderInstance as page } from "@/pageLoader";
+import { addPlayers } from "@/features/player/add";
+import { IntervalType } from "@/types/game/turn";
+import { pageLoaderInstance as page } from "@/page-loader";
 
 type WaitingInterval = ReturnType<typeof setInterval>;
 
@@ -12,21 +12,10 @@ export default async function waiting(game: GameInterface): Promise<WaitingInter
 }
 
 function initializeWaitingState(game: GameInterface) {
-	page.setStyle(page.qs("helper.helperRules") as HTMLElement, "display", "none");
-	page.setStyle(page.qs("infos.infosCurrentPlayer") as HTMLElement, "display", "flex");
-
-	(page.qs("infos.infosCurrentPlayer") as HTMLElement).classList.add("flex");
-
-	const numberOfPlayers = (game.getBot ?? 0) + 1;
-	const players = addPlayers(numberOfPlayers);
-
-	if (!players) return null;
-	game.setPlayers = players.getPlayers;
+	page.setStyle(page.qs("rules.rulesSpace") as HTMLElement, "display", "none");
 	game.state = STATE.WAITING;
 
-	page.setAttribute(page.qs("game.gameStartAction") as HTMLButtonElement, "data-set-state", STATE.CANCEL_WAITING);
-	page.makeText(page.qs("game.gameStartAction") as HTMLButtonElement, STATE.CANCEL_WAITING);
-	console.log(STATE.CANCEL_WAITING, "STATE.CANCEL_WAITING");
+	page.makeText(page.qs("game.startGameAction") as HTMLButtonElement, STATE.CANCEL_WAITING);
 	updateWaitingUI(game.getWaitingCount);
 }
 

@@ -1,4 +1,4 @@
-import type { SoundController, SoundEffectType, SoundCollection } from "@/types/game/game-sound.type";
+import type { SoundController, SoundEffectType, SoundCollection } from "@/types/game/sound";
 
 export default class GameSound implements SoundController {
 	private sounds: SoundCollection;

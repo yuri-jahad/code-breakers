@@ -1,22 +1,16 @@
-import { PlayersInterface } from "@/core/player/players-game";
+import { PlayersInterface } from "@/core/player/game";
 import { circle } from "@/utils/circle";
-import Players from "@/core/player/players-game";
-import UserProfile from "@/core/user/user.profile";
-import BotProfile from "@/core/bot/bot-profile";
-import playerView from "@/features/player/player-view";
-import { pageLoaderInstance as page } from "@/pageLoader";
+import Players from "@/core/player/game";
+import UserProfile from "@/core/user/profile";
+import BotProfile from "@/core/bot/profile";
+import playerView from "@/features/player/view";
+import { pageLoaderInstance as page } from "@/page-loader";
 
 export const addPlayers = (count: number) => {
 	// Fonction pour calculer le rayon responsive
 	const calculateResponsiveRadius = (): number => {
-		const viewportWidth = Math.min(
-			window.innerWidth,
-			document.documentElement.clientWidth
-		);
-		const viewportHeight = Math.min(
-			window.innerHeight,
-			document.documentElement.clientHeight
-		);
+		const viewportWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+		const viewportHeight = Math.min(window.innerHeight, document.documentElement.clientHeight);
 		const minDimension = Math.min(viewportWidth, viewportHeight);
 
 		// Calcul du rayon de base en fonction de la taille de l'écran
@@ -44,7 +38,7 @@ export const addPlayers = (count: number) => {
 	const containerSize = RADIUS * 2;
 
 	page.setAttribute(
-		page.qs("game.gamePlayerContent") as HTMLElement,
+		page.qs("game.activePlayers") as HTMLElement,
 		"style",
 		`width: ${containerSize}px; height: ${containerSize}px; border-radius: 50%; border: 1px solid rgba(147, 51, 234, 0.05); background: radial-gradient(circle at center, rgba(147, 51, 234, 0.02) 0%, transparent 70%); box-shadow: 0 0 20px rgba(147, 51, 234, 0.05);`
 	);
@@ -59,7 +53,7 @@ export const addPlayers = (count: number) => {
 		html += playerView.createPlayerElement(player, { x, y }, count);
 	}
 	console.log(html);
-	(page.qs("game.gamePlayerContent") as HTMLElement).innerHTML = html;
+	(page.qs("game.activePlayers") as HTMLElement).innerHTML = html;
 
 	// Gestionnaire de redimensionnement
 	const handleResize = () => {
@@ -67,10 +61,14 @@ export const addPlayers = (count: number) => {
 		if (newRadius !== RADIUS) {
 			RADIUS = newRadius;
 			const newContainerSize = RADIUS * 2;
-			page.setAttribute(page.qs("game.gamePlayerContent") as HTMLElement, "style", `width: ${newContainerSize}px; height: ${newContainerSize}px;`);
+			page.setAttribute(
+				page.qs("game.activePlayers") as HTMLElement,
+				"style",
+				`width: ${newContainerSize}px; height: ${newContainerSize}px;`
+			);
 
 			// Mettre à jour la position de chaque joueur
-			const playerElements = (page.qs("game.gamePlayerContent") as HTMLElement).children;
+			const playerElements = (page.qs("game.activePlayers") as HTMLElement).children;
 			for (let id = 0; id < playerElements.length; id++) {
 				const { x, y } = circle(RADIUS, id, count);
 				const playerElement = playerElements[id] as HTMLElement;
