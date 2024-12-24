@@ -70,7 +70,6 @@ export default class GameParameters implements ParamsType {
 		this.maxHeart = value;
 	}
 	get getBot() {
-		console.log(this.bot, "hihi");
 		return this.bot;
 	}
 

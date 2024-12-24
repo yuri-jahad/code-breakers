@@ -55,27 +55,19 @@ export class PageLoader extends PageSelector {
 		return cache;
 	}
 
-	private createEmptySelectorRender():
-		| SelectorRenderTypeGame
-		| BaseSelectorRenderType {
+	private createEmptySelectorRender(): SelectorRenderTypeGame | BaseSelectorRenderType {
 		const empty: Partial<SelectorRenderTypeGame> = {};
 		const selectorKeys = Object.keys(selectors) as SelectorsKeysType[];
 
 		selectorKeys.forEach(section => {
-			const sectionSelectors: Record<
-				string,
-				HTMLElement | NodeListOf<HTMLElement> | null
-			> = {};
+			const sectionSelectors: Record<string, HTMLElement | NodeListOf<HTMLElement> | null> = {};
 			const sectionKeys = Object.keys(selectors[section]);
 
 			sectionKeys.forEach(key => {
 				sectionSelectors[key] = null;
 			});
 
-			empty[section] = sectionSelectors as Record<
-				AllNestedKeys,
-				HTMLElement | NodeListOf<HTMLElement> | null
-			>;
+			empty[section] = sectionSelectors as Record<AllNestedKeys, HTMLElement | NodeListOf<HTMLElement> | null>;
 		});
 
 		return empty as SelectorRenderTypeGame;
@@ -98,8 +90,7 @@ export class PageLoader extends PageSelector {
 				}
 
 				// Pré-initialiser les sélecteurs
-				this.cache[this.currentPage].selectorsElements =
-					this.createEmptySelectorRender();
+				this.cache[this.currentPage].selectorsElements = this.createEmptySelectorRender();
 
 				await this.loadContent(this.currentPage);
 			} catch (error) {
@@ -124,17 +115,11 @@ export class PageLoader extends PageSelector {
 		const [section, selector] = path.split(".");
 
 		if (page === "game") {
-			const gameSelectors = this.cache[page]
-				.selectorsElements as SelectorRenderTypeGame;
-			return (
-				gameSelectors[section as SelectorsKeysType]?.[
-					selector as keyof SelectorsType[T]
-				] ?? null
-			);
+			const gameSelectors = this.cache[page].selectorsElements as SelectorRenderTypeGame;
+			return gameSelectors[section as SelectorsKeysType]?.[selector as keyof SelectorsType[T]] ?? null;
 		}
 
-		const otherSelectors = this.cache[page]
-			.selectorsElements as BaseSelectorRenderType;
+		const otherSelectors = this.cache[page].selectorsElements as BaseSelectorRenderType;
 		const selectors = otherSelectors[section]?.[selector];
 		if (selectors instanceof HTMLElement) {
 			return selectors;
@@ -154,8 +139,7 @@ export class PageLoader extends PageSelector {
 		return !!(
 			cachedPage.html &&
 			cachedPage.mainModule &&
-			(!hasAdditionalModules ||
-				(cachedPage.additionalModules?.length ?? 0) === hasAdditionalModules)
+			(!hasAdditionalModules || (cachedPage.additionalModules?.length ?? 0) === hasAdditionalModules)
 		);
 	}
 
@@ -188,9 +172,7 @@ export class PageLoader extends PageSelector {
 			};
 
 			await this.renderPage(validPageName);
-			this.cache[validPageName].selectorsElements = this.setSelector(
-				pageConfig.selectors || {}
-			);
+			this.cache[validPageName].selectorsElements = this.setSelector(pageConfig.selectors || {});
 		} catch (error) {
 			console.error("Erreur de chargement de la page:", error);
 			if (pageName !== "404") {
@@ -231,9 +213,7 @@ export class PageLoader extends PageSelector {
 			this.app.appendChild(pageContainer);
 
 			// Initialiser les sélecteurs une seule fois
-			this.cache[pageName].selectorsElements = this.setSelector(
-				PAGES_ROUTE[pageName]?.selectors || {}
-			);
+			this.cache[pageName].selectorsElements = this.setSelector(PAGES_ROUTE[pageName]?.selectors || {});
 		}
 
 		// Cacher toutes les pages sauf celle qu'on veut afficher
@@ -260,7 +240,6 @@ export class PageLoader extends PageSelector {
 	}
 
 	private async initializeModule(module: ModuleType | null): Promise<void> {
-		console.log("initializeModule", module);
 		if (!module?.default || typeof module.default !== "function") {
 			return;
 		}
@@ -273,5 +252,11 @@ export class PageLoader extends PageSelector {
 }
 
 const pageLoaderInstance = PageLoader.getInstance();
-// Initialisation immédiate mais non bloquante
-export { pageLoaderInstance };
+
+const qs = pageLoaderInstance.qs.bind(pageLoaderInstance);
+const makeText = pageLoaderInstance.makeText.bind(pageLoaderInstance);
+const setStyle = pageLoaderInstance.setStyle.bind(pageLoaderInstance);
+const makeHTML = pageLoaderInstance.makeHTML.bind(pageLoaderInstance);
+const setAttribute = pageLoaderInstance.setAttribute.bind(pageLoaderInstance);
+
+export { pageLoaderInstance, qs, makeText, setStyle, makeHTML, setAttribute };

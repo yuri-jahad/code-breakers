@@ -1,17 +1,11 @@
 import { GameInterface } from "@/types/game/game";
+import { hideGame } from "@/features/game/state/display-end";
 
-export function hideGame() {
-  const players: HTMLElement | null = document.querySelector(".players");
-  const writeInput: HTMLInputElement | null = document.querySelector("#write");
-  if (players && writeInput) {
-    writeInput.hidden = true;
-    players.innerHTML = "";
-  }
-}
 
 export function resetGame(game: GameInterface) {
   if (game.intervals.player) {
     console.log("RESET GAME");
+    console.log('cc')
     hideGame();
     game.historique.clear();
     game.setTurnTime = game.turnTimeCompare || 5;

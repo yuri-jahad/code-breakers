@@ -1,432 +1,527 @@
 <div
-	class="flex flex-col min-h-screen bg-gradient-to-tr from-[#010307] via-[#010307] to-[#0d0f15] bg-[#1f0329] bg-black animate-gradient"
+  class="flex flex-col min-h-screen bg-gradient-to-tr from-[#010307] via-[#010307] to-[#0d0f15] bg-[#1f0329] bg-black animate-gradient"
 >
-	<!-- Header -->
-	<div class="w-full bg-black/30 border-b border-white/5 px-2 sm:px-4 py-3">
-		<div class="max-w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 relative">
-			<!-- Topbar User -->
-			<div
-				id="topbar-user-space"
-				class="flex items-center gap-3 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start"
-			>
-				<button
-					type="button"
-					id="start-game-action"
-					class="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 font-medium text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-purple-500/20"
-				>
-					<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-						></path>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						></path>
-					</svg>
-					Start
-				</button>
-				<div id="game-current-state" class="text-gray-400 font-semibold"></div>
-			</div>
+  <!-- Header -->
+  <div class="w-full bg-black/30 border-b border-white/5 px-2 sm:px-4 py-3">
+    <div
+      class="max-w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 relative"
+    >
+      <!-- Topbar User -->
+      <div
+        id="topbar-user-space"
+        class="flex items-center gap-3 sm:gap-6 w-full sm:w-auto justify-center sm:justify-start"
+      >
+        <button
+          type="button"
+          id="start-game-action"
+          class="bg-purple-600/20 hover:bg-purple-600/30 text-purple-300 hover:text-purple-200 font-medium text-sm sm:text-base px-4 sm:px-8 py-2 rounded-lg border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 flex items-center gap-2 backdrop-blur-sm shadow-lg hover:shadow-purple-500/20"
+        >
+          <svg
+            class="w-4 h-4 sm:w-5 sm:h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Start
+        </button>
+        <div id="game-current-state" class="text-gray-400 font-semibold"></div>
+      </div>
 
-			<!-- User Zone -->
-			<div id="user-space" class="flex items-center gap-4 w-full sm:w-auto justify-center sm:justify-start">
-				<div class="flex items-center">
-					<input
-						type="text"
-						id="user-pseudo"
-						placeholder="Pseudo"
-						class="bg-slate-800/50 right-0 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-60 sm:w-60"
-					/>
-				</div>
-				<label class="cursor-pointer">
-					<input type="file" id="select-avatar" accept="image/png, image/jpeg, image/jpg, image/gif" class="hidden" />
-					<img
-						id="user-avatar"
-						class="w-10 h-10 sm:w-12 sm:h-12 rounded-full outline-none object-cover border-2 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 transform hover:scale-105"
-						alt="Avatar du joueur"
-					/>
-				</label>
-			</div>
-		</div>
-	</div>
+      <!-- User Zone -->
+      <div
+        id="user-space"
+        class="flex items-center gap-4 w-full sm:w-auto justify-center sm:justify-start"
+      >
+        <div class="flex items-center">
+          <input
+            type="text"
+            id="user-pseudo"
+            placeholder="Pseudo"
+            class="bg-slate-800/50 right-0 text-white text-base sm:text-xl rounded px-3 sm:px-4 py-1.5 sm:py-2 focus:outline-none focus:ring-1 outline-none focus:ring-purple-600/55 placeholder-gray-400 w-60 sm:w-60"
+          />
+        </div>
+        <label class="cursor-pointer">
+          <input
+            type="file"
+            id="select-avatar"
+            accept="image/png, image/jpeg, image/jpg, image/gif"
+            class="hidden"
+          />
+          <img
+            id="user-avatar"
+            class="w-10 h-10 sm:w-12 sm:h-12 rounded-full outline-none object-cover border-2 border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/20 transform hover:scale-105"
+            alt="Avatar du joueur"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
 
-	<!-- Main Content -->
-	<div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto">
-		<!-- Main Game -->
-		<div id="game-space" class="flex-1 relative">
-			<!-- Informations Score Table with Timer and Speed -->
-			<div id="infos-space" class="hidden absolute">
-				<div id="current-mode"></div>
+  <!-- Main Content -->
+  <div class="flex flex-col lg:flex-row flex-1 gap-4 w-full mx-auto">
+    <!-- Main Game -->
+    <div id="game-space" class="flex-1 relative">
+      <!-- Informations Score Table with Timer and Speed -->
+      <div id="infos-space" class="hidden absolute">
+        <div id="current-mode"></div>
 
-				<div id="current-player" class="flex-col left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2">
-					<!-- Timer and Speed -->
-					<div class="flex flex-col w-40 sm:w-48 md:w-64 space-y-2">
-						<div
-							class="text-slate-400 text-sm sm:text-base md:text-xl flex items-center gap-2 bg-black/20 px-2 sm:px-3 md:px-6 py-2 sm:py-3 rounded-lg relative overflow-hidden"
-						>
-							<svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-								></path>
-							</svg>
-							<div id="game-timer">00:00</div>
-							<div class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-purple-500/40 animate-infinite-slide"></div>
-						</div>
+        <div
+          id="current-player"
+          class="flex-col left-0 top-0 mt-20 ml-2 sm:ml-4 space-y-2"
+        >
+          <!-- Timer and Speed -->
+          <div class="flex flex-col w-40 sm:w-48 md:w-64 space-y-2">
+            <div
+              class="text-slate-400 text-sm sm:text-base md:text-xl flex items-center gap-2 bg-black/20 px-2 sm:px-3 md:px-6 py-2 sm:py-3 rounded-lg relative overflow-hidden"
+            >
+              <svg
+                class="w-4 h-4 sm:w-5 sm:h-5 text-purple-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <div id="game-timer">00:00</div>
+              <div
+                class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-purple-500/40 animate-infinite-slide"
+              ></div>
+            </div>
 
-						<div
-							class="text-slate-400 text-sm sm:text-base md:text-xl flex items-center gap-2 bg-black/20 px-2 sm:px-3 md:px-6 py-2 sm:py-3 rounded-lg relative overflow-hidden"
-						>
-							<svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M13 10V3L4 14h7v7l9-11h-7z"
-								></path>
-							</svg>
-							<div id="typing-speed">0 Speed</div>
-							<div class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-blue-500/40 animate-infinite-slide"></div>
-						</div>
+            <div
+              class="text-slate-400 text-sm sm:text-base md:text-xl flex items-center gap-2 bg-black/20 px-2 sm:px-3 md:px-6 py-2 sm:py-3 rounded-lg relative overflow-hidden"
+            >
+              <svg
+                class="w-4 h-4 sm:w-5 sm:h-5 text-blue-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+              <div id="typing-speed">0 Speed</div>
+              <div
+                class="absolute bottom-0 left-0 h-[2px] w-[200%] bg-blue-500/40 animate-infinite-slide"
+              ></div>
+            </div>
 
-						<div id="turn-time"></div>
-					</div>
-				</div>
+            <div id="turn-time"></div>
+          </div>
+        </div>
 
-				<!-- Score Table -->
-				<table
-					id="score-space"
-					class="w-40 sm:ml-4 sm:w-48 md:w-64 rounded-lg overflow-hidden border border-white/10 text-slate-400 text-sm sm:text-base md:text-xl bg-black/20 shadow-lg"
-				>
-					<tbody class="divide-y divide-white/5">
-						<tr>
-							<th
-								class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24"
-							>
-								Correct
-							</th>
-							<td
-								id="correct-word"
-								class="text-sm sm:text-base md:text-xl text-green-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3"
-							></td>
-						</tr>
-						<tr>
-							<th
-								class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24"
-							>
-								Fail
-							</th>
-							<td
-								id="fail-word"
-								class="text-sm sm:text-base md:text-xl text-red-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3"
-							></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+        <!-- Score Table -->
+        <table
+          id="score-space"
+          class="w-40 sm:ml-4 sm:w-48 md:w-64 rounded-lg overflow-hidden border border-white/10 text-slate-400 text-sm sm:text-base md:text-xl bg-black/20 shadow-lg"
+        >
+          <tbody class="divide-y divide-white/5">
+            <tr>
+              <th
+                class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24"
+              >
+                Correct
+              </th>
+              <td
+                id="correct-word"
+                class="text-sm sm:text-base md:text-xl text-green-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3"
+              ></td>
+            </tr>
+            <tr>
+              <th
+                class="text-sm sm:text-base md:text-xl text-left px-2 sm:px-3 md:px-6 py-2 sm:py-3 w-16 sm:w-20 md:w-24"
+              >
+                Fail
+              </th>
+              <td
+                id="fail-word"
+                class="text-sm sm:text-base md:text-xl text-red-400 px-2 sm:px-3 md:px-6 py-2 sm:py-3"
+              ></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-			<div id="rules-space" class="bg-black/20 rounded-lg p-4 sm:p-8 backdrop-blur-sm w-full mx-auto">
-				<h3
-					class="text-purple-400 font-semibold mb-4 sm:mb-6 text-sm sm:text-base flex items-center gap-2 justify-center"
-				>
-					<svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-						></path>
-					</svg>
-					Règles du jeu
-				</h3>
-				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-6xl mx-auto">
-					<div
-						class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
-					>
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 01</span>
-							<div class="h-px flex-1 bg-purple-500/10"></div>
-						</div>
-						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">
-							Vous devez résoudre l'énigme en trouvant le mot correct dans la liste.
-						</p>
-					</div>
+      <div
+        id="rules-space"
+        class="bg-black/20 rounded-lg p-4 sm:p-8 backdrop-blur-sm w-full mx-auto"
+      >
+        <h3
+          class="text-purple-400 font-semibold mb-4 sm:mb-6 text-sm sm:text-base flex items-center gap-2 justify-center"
+        >
+          <svg
+            class="w-3 h-3 sm:w-4 sm:h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Règles du jeu
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-6xl mx-auto">
+          <div
+            class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="text-purple-400/70 font-semibold text-base sm:text-xl"
+                >Règle 01</span
+              >
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Vous devez résoudre l'énigme en trouvant le mot correct dans la
+              liste.
+            </p>
+          </div>
 
-					<div
-						class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
-					>
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 02</span>
-							<div class="h-px flex-1 bg-purple-500/10"></div>
-						</div>
-						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">
-							Vous avez un temps limité pour trouver le mot.
-						</p>
-					</div>
+          <div
+            class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="text-purple-400/70 font-semibold text-base sm:text-xl"
+                >Règle 02</span
+              >
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Vous avez un temps limité pour trouver le mot.
+            </p>
+          </div>
 
-					<div
-						class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
-					>
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 03</span>
-							<div class="h-px flex-1 bg-purple-500/10"></div>
-						</div>
-						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">
-							Si vous ne trouvez pas le mot, vous perdez une vie.
-						</p>
-					</div>
+          <div
+            class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="text-purple-400/70 font-semibold text-base sm:text-xl"
+                >Règle 03</span
+              >
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Si vous ne trouvez pas le mot, vous perdez une vie.
+            </p>
+          </div>
 
-					<div
-						class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
-					>
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 04</span>
-							<div class="h-px flex-1 bg-purple-500/10"></div>
-						</div>
-						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">
-							Si vous trouvez 5 mots successifs, vous gagnez une vie.
-						</p>
-					</div>
+          <div
+            class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="text-purple-400/70 font-semibold text-base sm:text-xl"
+                >Règle 04</span
+              >
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Si vous trouvez 5 mots successifs, vous gagnez une vie.
+            </p>
+          </div>
 
-					<div
-						class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors col-span-1 sm:col-span-2"
-					>
-						<div class="flex items-center gap-3 mb-2">
-							<span class="text-purple-400/70 font-semibold text-base sm:text-xl">Règle 05</span>
-							<div class="h-px flex-1 bg-purple-500/10"></div>
-						</div>
-						<p class="text-sm sm:text-xl leading-relaxed text-gray-300">Le gagnant est le dernier survivant.</p>
-					</div>
-				</div>
-			</div>
+          <div
+            class="rule group bg-black/30 rounded-lg p-3 sm:p-4 border border-white/5 hover:border-purple-500/20 transition-colors col-span-1 sm:col-span-2"
+          >
+            <div class="flex items-center gap-3 mb-2">
+              <span
+                class="text-purple-400/70 font-semibold text-base sm:text-xl"
+                >Règle 05</span
+              >
+              <div class="h-px flex-1 bg-purple-500/10"></div>
+            </div>
+            <p class="text-sm sm:text-xl leading-relaxed text-gray-300">
+              Le gagnant est le dernier survivant.
+            </p>
+          </div>
+        </div>
+      </div>
 
-			<!-- Players -->
-			<div id="players-space" class="mx-auto w-full h-full relative flex justify-center items-center">
-				<div id="active-players" class="relative"></div>
-				<div
-					id="current-puzzle"
-					class="absolute text-gray-400 font-bold left-1/2 text-sm sm:text-base md:text-lg top-1/2 transform -translate-x-1/2 -translate-y-1/2"
-				></div>
-			</div>
+      <!-- Players -->
+      <div
+        id="players-space"
+        class="relative mx-auto flex justify-center h-full"
+      >
+        <canvas id="active-players" class="absolute top-80 -translate-y-1/2"></canvas>
+        <div
+          id="current-puzzle"
+          class="absolute left-1/2 top-80 transform -translate-x-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm sm:text-base md:text-lg"
+        ></div>
+        <div id="players" class="absolute top-80 -translate-y-1/2"></div>
+        <!-- Input -->
+        <div
+          class="text-center w-full fixed sm:absolute bottom-1 sm:bottom-20 left-1/2 transform -translate-x-1/2 px-2 sm:px-0"
+        >
+          <div
+            id="answer-space"
+            class="relative word-wrap mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12"
+          >
+            <input
+              id="input-answer"
+              type="text"
+              class="uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500"
+              placeholder="Tapez votre message..."
+              maxlength="100"
+            />
+            <span
+              id="letter-count"
+              class="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
 
-			<!-- Input -->
-			<div
-				class="text-center w-full fixed sm:absolute bottom-1 sm:bottom-20 left-1/2 transform -translate-x-1/2 px-2 sm:px-0"
-			>
-				<div id="answer-space" class="relative word-wrap mx-auto w-full hidden sm:w-11/12 md:w-9/12 lg:w-7/12">
-					<input
-						id="input-answer"
-						type="text"
-						class="uppercase placeholder:normal-case w-full py-2.5 sm:py-3 md:py-4 lg:py-5 px-3 sm:px-4 md:px-5 font-bold bg-transparent border border-gray-700/30 text-purple-600 text-sm sm:text-base md:text-lg lg:text-xl rounded-lg outline-none transition-all duration-500 placeholder:text-gray-500"
-						placeholder="Tapez votre message..."
-						maxlength="100"
-					/>
-					<span
-						id="letter-count"
-						class="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 rounded-full bg-black/30 border border-gray-700/30 hidden items-center justify-center text-gray-400 text-xs sm:text-sm md:text-base lg:text-xl font-medium shadow-lg backdrop-blur-sm hover:border-purple-500/30 transition-all duration-300"
-					>
-						0
-					</span>
-				</div>
-			</div>
-		</div>
+    <!--chat -->
+    <div
+      class="sidebar-space h-[600px] lg:h-auto relative lg:relative lg:mt-4 w-full lg:w-3/12 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm flex flex-col"
+    >
+      <!-- Menu de navigation -->
+      <div id="menu-space" class="flex gap-1 p-2 border-b border-white/5">
+        <button
+          id="params-btn"
+          class="flex items-center bg-purple-500/10 text-gray-400 text-purple-400 gap-2 px-4 py-2 rounded-lg hover:bg-purple-500/20 transition-all duration-300"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+          </svg>
+          <span class="text-sm">Paramètres</span>
+        </button>
+        <button
+          id="chat-btn"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"
+            />
+            <path
+              d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
+            />
+          </svg>
+          <span class="text-sm">Chat</span>
+        </button>
+      </div>
 
-		<!--chat -->
-		<div
-			class="sidebar-space h-[600px] lg:h-auto relative lg:relative lg:mt-4 w-full lg:w-3/12 bg-black/30 rounded-2xl shadow-xl border border-white/5 backdrop-blur-sm flex flex-col"
-		>
-			<!-- Menu de navigation -->
-			<div id="menu-space" class="flex gap-1 p-2 border-b border-white/5">
-				<button
-					id="params-btn"
-					class="flex items-center bg-purple-500/10 text-gray-400 text-purple-400 gap-2 px-4 py-2 rounded-lg hover:bg-purple-500/20 transition-all duration-300"
-				>
-					<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-						/>
-					</svg>
-					<span class="text-sm">Paramètres</span>
-				</button>
-				<button
-					id="chat-btn"
-					class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-purple-500/10 transition-all duration-300"
-				>
-					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-						<path
-							d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"
-						/>
-					</svg>
-					<span class="text-sm">Chat</span>
-				</button>
-			</div>
+      <!-- Chat Header -->
 
-			<!-- Chat Header -->
+      <div id="sidebar-content" class="w-full h-full relative">
+        <div id="chat-space" class="hidden w-full h-[100%]">
+          <!-- Chat Input -->
+          <div
+            id="chat-messages"
+            class="h-[90%] w-full border-t border-white/5"
+          ></div>
 
-			<div id="sidebar-content" class="w-full h-full relative">
-				<div id="chat-space" class="hidden w-full h-[100%]">
-					<!-- Chat Input -->
-					<div id="chat-messages" class="h-[90%] w-full border-t border-white/5"></div>
+          <div id="chat-input-space" class="h-[10%] relative">
+            <input
+              id="chat-input"
+              type="text"
+              class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0 border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
+              placeholder="Tapez votre message..."
+            />
+            <button
+              title="chat send message"
+              id="chat-send"
+              class="absolute right-5 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div
+          id="params-space"
+          class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm"
+        >
+          <div class="p-4 space-y-2">
+            <!-- Mode -->
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+                for="params-select-mode"
+                >🎮 Mode</label
+              >
+              <select
+                id="select-mode"
+                title="Mode"
+                class="w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
+              >
+                <option selected value="code-http">code-http</option>
+                <option value="english">english</option>
+              </select>
+            </div>
 
-					<div id="chat-input-space" class="h-[10%] relative">
-						<input
-							id="chat-input"
-							type="text"
-							class="w-full bg-slate-800/50 text-gray-200 px-3 py-2 h-full bottom-0 border border-white/10 focus:border-purple-500/30 placeholder-gray-500 text-sm transition-all duration-300 outline-none"
-							placeholder="Tapez votre message..."
-						/>
-						<button
-							id="chat-send"
-							class="absolute right-5 top-1/2 -translate-y-1/2 text-purple-400/70 hover:text-purple-400 transition-colors"
-						>
-							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-								/>
-							</svg>
-						</button>
-					</div>
-				</div>
-				<div id="params-space" class="w-full right-4 h-[100%] shadow-xl backdrop-blur-sm">
-					<div class="p-4 space-y-2">
-						<!-- Mode -->
-						<div class="space-y-1.5">
-							<label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="params-select-mode"
-								>🎮 Mode</label
-							>
-							<select
-								id="select-mode"
-								title="Mode"
-								class="w-full bg-slate-800 text-gray-200 px-2 sm:px-3 py-1 sm:py-1.5 text-sm sm:text-base transition-all outline-none rounded"
-							>
-								<option selected value="code-http">code-http</option>
-								<option value="english">english</option>
-							</select>
-						</div>
+            <!-- Turn Time -->
+            <div class="space-y-1.5">
+              <label
+                class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+                >⏱️ Temps de tour</label
+              >
+              <div id="turn-time-space" class="flex items-center gap-3">
+                <input
+                  class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
+                  type="text"
+                  id="turn-time-input"
+                  aria-label="Temps de tour"
+                  placeholder="10"
+                  value="10"
+                />
+                <input
+                  class="flex-1 accent-purple-600 h-1"
+                  type="range"
+                  id="turn-time-range"
+                  aria-label="Temps de tour"
+                  placeholder="10"
+                />
+              </div>
+            </div>
 
-						<!-- Turn Time -->
-						<div class="space-y-1.5">
-							<label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300">⏱️ Temps de tour</label>
-							<div id="turn-time-space" class="flex items-center gap-3">
-								<input
-									class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded px-2 py-1 text-sm sm:text-base transition-all outline-none"
-									type="text"
-									id="turn-time-input"
-									aria-label="Temps de tour"
-									placeholder="10"
-									value="10"
-								/>
-								<input
-									class="flex-1 accent-purple-600 h-1"
-									type="range"
-									id="turn-time-range"
-									aria-label="Temps de tour"
-									placeholder="10"
-								/>
-							</div>
-						</div>
+            <div id="hearts-space">
+              <!-- Min Hearts -->
+              <div id="min-hearts-space" class="space-y-1.5">
+                <label
+                  class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+                  for="min-heart-input"
+                  >❤️ Vies minimum</label
+                >
+                <div class="flex items-center gap-3">
+                  <input
+                    id="min-hearts-input"
+                    class="min-hearts-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-purple-500/20 transition-all outline-none"
+                    type="text"
+                    name="min-hearts"
+                    min="1"
+                    max="10"
+                    value="3"
+                    aria-label="Minimum hearts input"
+                    placeholder="3"
+                  />
+                  <input
+                    id="min-hearts-range"
+                    class="flex-1 accent-purple-600 h-1"
+                    type="range"
+                    name="min-hearts-range"
+                    min="1"
+                    max="10"
+                    value="3"
+                    aria-label="Minimum hearts range"
+                  />
+                </div>
+              </div>
 
-						<div id="hearts-space">
-							<!-- Min Hearts -->
-							<div id="min-hearts-space" class="space-y-1.5">
-								<label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="min-heart-input"
-									>❤️ Vies minimum</label
-								>
-								<div class="flex items-center gap-3">
-									<input
-										id="min-hearts-input"
-										class="min-hearts-input w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-purple-500/20 transition-all outline-none"
-										type="text"
-										name="min-hearts"
-										min="1"
-										max="10"
-										value="3"
-										aria-label="Minimum hearts input"
-										placeholder="3"
-									/>
-									<input
-										id="min-hearts-range"
-										class="flex-1 accent-purple-600 h-1"
-										type="range"
-										name="min-hearts-range"
-										min="1"
-										max="10"
-										value="3"
-										aria-label="Minimum hearts range"
-									/>
-								</div>
-							</div>
+              <!-- Max Hearts -->
+              <div id="max-hearts-space" class="space-y-1.5">
+                <label
+                  class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+                  for="max-heart-input"
+                  >❤️ Vies maximum</label
+                >
+                <div class="flex items-center gap-3">
+                  <input
+                    id="max-hearts-input"
+                    class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 transition-all outline-none"
+                    type="text"
+                    aria-label="Maximum hearts input"
+                    min="0"
+                    max="10"
+                    value="3"
+                  />
+                  <input
+                    id="max-hearts-range"
+                    class="flex-1 accent-purple-600 h-1"
+                    type="range"
+                    name="max-hearts-range"
+                    min="3"
+                    max="10"
+                    value="3"
+                    aria-label="Maximum hearts range"
+                  />
+                </div>
+              </div>
+            </div>
 
-							<!-- Max Hearts -->
-							<div id="max-hearts-space" class="space-y-1.5">
-								<label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300" for="max-heart-input"
-									>❤️ Vies maximum</label
-								>
-								<div class="flex items-center gap-3">
-									<input
-										id="max-hearts-input"
-										class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 transition-all outline-none"
-										type="text"
-										aria-label="Maximum hearts input"
-										min="0"
-										max="10"
-										value="3"
-									/>
-									<input
-										id="max-hearts-range"
-										class="flex-1 accent-purple-600 h-1"
-										type="range"
-										name="max-hearts-range"
-										min="3"
-										max="10"
-										value="3"
-										aria-label="Maximum hearts range"
-									/>
-								</div>
-							</div>
-						</div>
-
-						<!-- Bots -->
-						<div id="bots-space" class="space-y-1.5">
-							<label class="block text-xs sm:text-sm md:text-base font-medium text-gray-300">🤖 Bots</label>
-							<div class="flex items-center gap-3">
-								<input
-									class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
-									type="text"
-									id="bots-input"
-									min="0"
-									value="0"
-									max="15"
-									aria-label="Number of bots"
-								/>
-								<input
-									class="bot-range flex-1 accent-purple-600 h-1"
-									type="range"
-									id="bots-range"
-									min="1"
-									max="15"
-									value="0"
-									aria-label="Number of bots range"
-								/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            <!-- Bots -->
+            <div id="bots-space" class="space-y-1.5">
+              <label
+                class="block text-xs sm:text-sm md:text-base font-medium text-gray-300"
+                >🤖 Bots</label
+              >
+              <div class="flex items-center gap-3">
+                <input
+                  class="w-12 sm:w-14 md:w-16 bg-slate-800 text-gray-200 rounded-md px-2 py-1 text-sm sm:text-base border border-white/10 focus:border-transparent transition-all outline-none"
+                  type="text"
+                  id="bots-input"
+                  min="0"
+                  value="0"
+                  max="15"
+                  aria-label="Number of bots"
+                />
+                <input
+                  class="bot-range flex-1 accent-purple-600 h-1"
+                  type="range"
+                  id="bots-range"
+                  min="1"
+                  max="15"
+                  value="0"
+                  aria-label="Number of bots range"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

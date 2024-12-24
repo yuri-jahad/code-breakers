@@ -8,9 +8,10 @@ import {
 import type { GameTurnInterface } from "@/types/game/turn";
 import GameParameters from "@/core/game/parameters";
 
-
-export default class GameTurn extends GameParameters implements GameTurnInterface {
-  // Propriétés privées
+export default class GameTurn
+  extends GameParameters
+  implements GameTurnInterface
+{
   private _turnCurrentPlayer: TurnActivePlayer | null = null;
   private _intervals: Record<IntervalValuesType, IntervalId> = {
     [IntervalType.PLAYER_TURN]: null,
@@ -23,7 +24,6 @@ export default class GameTurn extends GameParameters implements GameTurnInterfac
     super();
   }
 
-  // Getters publics
   get turnCurrentPlayer(): TurnActivePlayer | null {
     return this._turnCurrentPlayer ? { ...this._turnCurrentPlayer } : null;
   }
@@ -44,7 +44,6 @@ export default class GameTurn extends GameParameters implements GameTurnInterfac
     this._turnTimeCompare = value;
   }
 
-  // Méthodes de gestion des intervalles
   public setInterval(type: IntervalValuesType, id: IntervalId): void {
     this.clearInterval(type);
     this._intervals[type] = id;
@@ -63,7 +62,6 @@ export default class GameTurn extends GameParameters implements GameTurnInterfac
     });
   }
 
-  // Méthodes de gestion du joueur
   public setActivePlayer(player: TurnActivePlayer): void {
     this._turnCurrentPlayer = { ...player };
   }
@@ -72,7 +70,6 @@ export default class GameTurn extends GameParameters implements GameTurnInterfac
     this._turnCurrentPlayer = null;
   }
 
-  // Méthodes de gestion du handler
   public setTurnHandler(handler: TurnHandler): void {
     this._turnHandler = handler;
   }
@@ -81,14 +78,12 @@ export default class GameTurn extends GameParameters implements GameTurnInterfac
     this._turnHandler = null;
   }
 
-  // Méthode de nettoyage général
   public cleanup(): void {
     this.clearAllIntervals();
     this.clearPlayer();
     this.clearTurnHandler();
   }
 
-  // Méthodes protégées pour l'héritage
   protected getCurrentTurn(): number {
     return this._turnCurrentPlayer?.turnCount ?? 0;
   }

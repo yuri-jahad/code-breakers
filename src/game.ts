@@ -1,76 +1,84 @@
-import { pageLoaderInstance as page } from "@/page-loader";
+import { pageLoaderInstance as page, qs, makeText } from "@/page-loader";
 import { IntervalId, IntervalType } from "@/types/game/turn";
-import { Game } from "@/core/game/game";
-import { GameFactory } from "@/modes/factory";
 import stateInactive from "@/states/inactive";
 import stateStart from "@/states/start";
 import stateWaiting from "@/states/waiting";
-import stateGame from "@/states/game";
+import stateGame from "@/states/gaming";
 import stateEnd from "@/states/end";
-import { displayTypingSpeed } from "@/features/speed/display-typing";
-import { isGameWin } from "@/features/game/win";
+import { displayTypingSpeed } from "@/features/speed/typing-display";
+import { isGameWin } from "@/features/game/state/display-win";
 import { updateScore } from "@/features/score/update";
 import handleUserRegistration from "@/features/profile/user";
-import extractPlayer from "@/features/player/extract";
-
-export const STATE = {
-	INACTIVE: "inactive",
-	WAITING: "waiting",
-	CANCEL_WAITING: "cancel-waiting",
-	START: "start",
-	GAME: "game",
-	END: "end",
-} as const;
+import { getGameInstance } from "@/core/game/getInstance";
+import { STATE } from "@/types/state/state";
+import getPlayerElements from "./features/player/get-elements";
 
 export default async function initGame() {
-	const gameFactory = new GameFactory();
-	const game = new Game(gameFactory);
-	stateInactive(game);
-	await handleUserRegistration();
-	(page.qs("game.startGameAction") as HTMLElement).addEventListener("click", async function () {
-		if (game.state === STATE.WAITING) {
-			game.clearInterval(IntervalType.WAIT_STATE);
-			stateInactive(game);
-		} else if (game.state === STATE.INACTIVE || game.state === STATE.END) {
-			game.setInterval(IntervalType.WAIT_STATE, (await stateWaiting(game)) as IntervalId);
-			stateStart(game);
-			stateGame(game);
-		} else if (game.state === STATE.GAME) {
-			stateEnd(game);
-		}
-	});
+  const gameInstance = getGameInstance();
+  stateInactive(gameInstance);
+  await handleUserRegistration();
+  (qs("game.startGameAction") as HTMLElement).addEventListener(
+    "click",
+    async function () {
+      if (gameInstance.state === STATE.WAITING) {
+        gameInstance.clearInterval(IntervalType.WAIT_STATE);
+        stateInactive(gameInstance);
+      } else if (
+        gameInstance.state === STATE.INACTIVE ||
+        gameInstance.state === STATE.END
+      ) {
+        gameInstance.setInterval(
+          IntervalType.WAIT_STATE,
+          (await stateWaiting()) as IntervalId
+        );
+        stateStart();
+        stateGame();
+      } else if (gameInstance.state === STATE.GAME) {
+        stateEnd(gameInstance);
+      }
+    }
+  );
 
-	(page.qs("game.inputAnswer") as HTMLInputElement).addEventListener("keyup", async event => {
-		const target = event.target as HTMLInputElement;
-		const playerExtract = extractPlayer(game.getCurrentPlayer?.id || 0);
-		if (!playerExtract) return;
+  (qs("game.inputAnswer") as HTMLInputElement).addEventListener(
+    "keyup",
+    async (event) => {
+      const target = event.target as HTMLInputElement;
+      const playerElements = getPlayerElements(
+        gameInstance.getCurrentPlayer?.id || 0
+      );
 
-		page.makeText(playerExtract.answer, target.value);
+      if (!playerElements) return;
 
-		if (event.key === "Enter") {
-			if (target.value === game.puzzle.response) {
-				const currentPlayer = game.getCurrentPlayer;
-				if (!currentPlayer) return;
+      makeText(playerElements.playerAnswer, target.value);
 
-				game.gameSound.playSound("puzzleSolved");
-				currentPlayer.speed.end = Date.now();
-				updateScore(currentPlayer, "correctWord");
+      if (event.key === "Enter") {
+        if (target.value === gameInstance.puzzle.response) {
+          const currentPlayer = gameInstance.getCurrentPlayer;
+          if (!currentPlayer) return;
+          gameInstance.gameSound.playSound("puzzleSolved");
+          currentPlayer.speed.end = Date.now();
+          updateScore(currentPlayer, "correctWord");
 
-				//page.makeText(playerExtract.answer, target.value);
-				if (currentPlayer) {
-					displayTypingSpeed(currentPlayer.speed.end - currentPlayer.speed.start);
-				}
-				const isComplete = isGameWin(game.historique.size, game.data?.length || 0);
-				if (isComplete) {
-					stateEnd(game);
-					return;
-				}
-				game.nextTurnPlayer();
-			} else {
-				game.gameSound.playSound("puzzleFailed");
-			}
-			(page.qs("game.inputAnswer") as HTMLInputElement).value = "";
-		}
-	});
+          //makeText(playerExtract.answer, target.value);
+          if (currentPlayer) {
+            displayTypingSpeed(
+              currentPlayer.speed.end - currentPlayer.speed.start
+            );
+          }
+          const isComplete = isGameWin(
+            gameInstance.historique.size,
+            gameInstance.data?.length || 0
+          );
+          if (isComplete) {
+            stateEnd(gameInstance);
+            return;
+          }
+          gameInstance.nextTurnPlayer();
+        } else {
+          gameInstance.gameSound.playSound("puzzleFailed");
+        }
+        (qs("game.inputAnswer") as HTMLInputElement).value = "";
+      }
+    }
+  );
 }
-
