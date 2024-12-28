@@ -1,7 +1,7 @@
-import { getGameInstance } from "@/core/game/getInstance";
 import { STATE } from "@/types/state/state";
 import { IntervalType } from "@/types/game/turn";
 import { qs, setStyle, makeText } from "@/page-loader";
+import { getGameInstance } from "@/core/game/get-Instance";
 
 type WaitingInterval = ReturnType<typeof setInterval>;
 

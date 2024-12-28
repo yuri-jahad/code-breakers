@@ -9,9 +9,9 @@ import { displayTypingSpeed } from "@/features/speed/typing-display";
 import { isGameWin } from "@/features/game/state/display-win";
 import { updateScore } from "@/features/score/update";
 import handleUserRegistration from "@/features/profile/user";
-import { getGameInstance } from "@/core/game/getInstance";
 import { STATE } from "@/types/state/state";
 import getPlayerElements from "./features/player/get-elements";
+import { getGameInstance } from "./core/game/get-Instance";
 
 export default async function initGame() {
   const gameInstance = getGameInstance();
@@ -53,32 +53,8 @@ export default async function initGame() {
 
       if (event.key === "Enter") {
         if (target.value === gameInstance.puzzle.response) {
-          const currentPlayer = gameInstance.getCurrentPlayer;
-          if (!currentPlayer) return;
-          gameInstance.gameSound.playSound("puzzleSolved");
-          currentPlayer.speed.end = Date.now();
-          updateScore(currentPlayer, "correctWord");
-
-          //makeText(playerExtract.answer, target.value);
-          if (currentPlayer) {
-            displayTypingSpeed(
-              currentPlayer.speed.end - currentPlayer.speed.start
-            );
-          }
-          const isComplete = isGameWin(
-            gameInstance.historique.size,
-            gameInstance.data?.length || 0
-          );
-          if (isComplete) {
-            stateEnd(gameInstance);
-            return;
-          }
-          gameInstance.nextTurnPlayer();
-        } else {
-          gameInstance.gameSound.playSound("puzzleFailed");
+          await gameInstance.getTurnManagement("turnHandler")?.handleCorrectAnswer();
         }
-        (qs("game.inputAnswer") as HTMLInputElement).value = "";
       }
-    }
-  );
+    });
 }

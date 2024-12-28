@@ -1,4 +1,3 @@
-import CircleManager from '@/utils/draw-circle';
 import type { GameInterface, GameState } from "@/types/game/game";
 import type { PuzzleType } from "@/types/data-type";
 import type { ProfileStats } from "@/types/profile/type";
@@ -11,7 +10,6 @@ import GameSound from "../sound/game";
 import { circle } from "@/utils/circle";
 import playerView from "@/features/player/display";
 import { pageLoaderInstance as page } from "@/page-loader";
-
 
 export class Game extends Turn implements GameInterface {
   state: GameState;
@@ -59,9 +57,9 @@ export class Game extends Turn implements GameInterface {
     return Game.instance;
   }
 
-  addPlayersHTML(radius: number) {
+  addPlayersHTML(radius: number): void {
     this._players.forEach((player, index) => {
-      if (this.getMinHeart) {
+      if (this.get("minHeart")) {
         const { x, y } = circle(radius, index, this._players.length);
         page.makeHTML(
           page.qs("game.activePlayers") as HTMLElement,
@@ -70,19 +68,17 @@ export class Game extends Turn implements GameInterface {
       }
     });
   }
-  /**
-   * Initialise le mode de jeu
-   */
+
   public initializeFactory(mode: ModesNames): PuzzleType | null {
     if (this.gameFactory) {
-      this.setMode = mode;
+      this.set("mode", mode);
       this.setCurrentPlayer = this._players[0];
       const generate = this.gameFactory.create(mode, this.historique)?.generate;
 
       if (generate) {
         this.puzzleGenerate = generate;
         this.setPuzzle();
-        this.puzzle;
+        return this.puzzle;
       }
     }
     return null;
@@ -95,33 +91,37 @@ export class Game extends Turn implements GameInterface {
     this.puzzle = entity;
   }
 
-  nextTurnPlayer() {
-    this.setTurnTime = this.turnTimeCompare;
+  nextTurnPlayer(): void {
     this.clearInterval(IntervalType.PLAYER_TURN);
-	CircleManager.animate({ duration: (this.turnTime || 5) * 1000 });
 
     const currentIndex = this._players.findIndex(
       (p) => p.id === this.currentPlayer?.id
     );
-    this.setPuzzle();
 
+    this.setPuzzle();
     page.makeText(
       page.qs("game.currentPuzzle") as HTMLElement,
       this.puzzle?.request || ""
     );
-    const nextIndex = (currentIndex + 1) % this._players.length;
 
-    this._players.find((player) => nextIndex === player.id);
+    const nextIndex = (currentIndex + 1) % this._players.length;
     this.setCurrentPlayer = this._players[nextIndex] || this._players[0];
     this.setCurrentPlayerIndex = nextIndex;
 
-    const turnHandler = this.turnHandler;
+    this.resetInput(nextIndex);
+    const turnHandler = this.getTurnManagement("turnHandler");
     if (turnHandler) turnHandler();
-    (page.qs("game.inputAnswer") as HTMLInputElement).value = "";
-    (page.qs("game.inputAnswer") as HTMLInputElement).hidden =
-      this.players[nextIndex].id > 0;
   }
 
+  private resetInput(playerIndex: number): void {
+    const inputElement = page.qs("game.inputAnswer") as HTMLInputElement;
+    if (inputElement) {
+      inputElement.value = "";
+      inputElement.hidden = this.players[playerIndex].id > 0;
+    }
+  }
+
+  // Getters et Setters
   get getPlayerDeath(): ProfileStats[] {
     return this.playerDeath;
   }
@@ -134,7 +134,7 @@ export class Game extends Turn implements GameInterface {
     this.currentPlayerIndex = index;
   }
 
-  get getCurrentPlayerIndex() {
+  get getCurrentPlayerIndex(): number {
     return this.currentPlayerIndex;
   }
 
@@ -142,7 +142,7 @@ export class Game extends Turn implements GameInterface {
     this.currentPlayer = player;
   }
 
-  get getCurrentPlayer() {
+  get getCurrentPlayer(): ProfileStats | null {
     return this.currentPlayer;
   }
 
@@ -154,7 +154,7 @@ export class Game extends Turn implements GameInterface {
     this._players = players;
   }
 
-  get getPlayers() {
+  get getPlayers(): ProfileStats[] {
     return this._players;
   }
 
@@ -162,7 +162,7 @@ export class Game extends Turn implements GameInterface {
     this._players = players;
   }
 
-  get getWaitingCount() {
+  get getWaitingCount(): number {
     return this.waitingCount;
   }
 }

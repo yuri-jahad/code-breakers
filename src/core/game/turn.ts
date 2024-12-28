@@ -8,40 +8,56 @@ import {
 import type { GameTurnInterface } from "@/types/game/turn";
 import GameParameters from "@/core/game/parameters";
 
+export interface TurnManagement {
+  turnHandler: TurnHandler;
+  turnCurrentPlayer: TurnActivePlayer;
+  turnTimeCompare: number;
+}
+
+export type TurnManagementKeys = keyof TurnManagement;
+export type TurnManagementValues<T extends TurnManagementKeys> =
+  TurnManagement[T];
+
+export interface TurnManagementOperations {
+  get<T extends keyof TurnManagement>(key: T): TurnManagement[T] | undefined;
+  set<K extends keyof TurnManagement>(key: K, value: TurnManagement[K]): void;
+}
+export type PartialTurnManagement = Partial<TurnManagement>;
+
+export type TurnManagementWithOperations = PartialTurnManagement &
+  TurnManagementOperations;
+
 export default class GameTurn
   extends GameParameters
   implements GameTurnInterface
 {
-  private _turnCurrentPlayer: TurnActivePlayer | null = null;
   private _intervals: Record<IntervalValuesType, IntervalId> = {
     [IntervalType.PLAYER_TURN]: null,
     [IntervalType.WAIT_STATE]: null,
     [IntervalType.NEXT_TURN]: null,
   };
-  private _turnHandler: TurnHandler | null = null;
-  protected _turnTimeCompare: number | null = null;
+
+  private _turnManagement: PartialTurnManagement = {};
+
   constructor() {
     super();
   }
 
-  get turnCurrentPlayer(): TurnActivePlayer | null {
-    return this._turnCurrentPlayer ? { ...this._turnCurrentPlayer } : null;
-  }
+  getTurnManagement = <K extends TurnManagementKeys>(
+    key: K
+  ): TurnManagementValues<K> | undefined => {
+    return this._turnManagement[key];
+  };
+
+  setTurnManagement = <K extends TurnManagementKeys>(
+    key: K,
+    value: TurnManagementValues<K> | undefined
+  ): void => {
+    this._turnManagement[key] = value;
+  };
 
   get intervals(): Record<IntervalValuesType, IntervalId> {
     return { ...this._intervals };
-  }
-
-  get turnHandler(): TurnHandler | null {
-    return this._turnHandler;
-  }
-
-  get turnTimeCompare(): number | null {
-    return this._turnTimeCompare;
-  }
-
-  set setTurnTimeCompare(value: number | null) {
-    this._turnTimeCompare = value;
   }
 
   public setInterval(type: IntervalValuesType, id: IntervalId): void {
@@ -62,20 +78,12 @@ export default class GameTurn
     });
   }
 
-  public setActivePlayer(player: TurnActivePlayer): void {
-    this._turnCurrentPlayer = { ...player };
-  }
-
   public clearPlayer(): void {
-    this._turnCurrentPlayer = null;
-  }
-
-  public setTurnHandler(handler: TurnHandler): void {
-    this._turnHandler = handler;
+    this.setTurnManagement("turnCurrentPlayer", undefined);
   }
 
   public clearTurnHandler(): void {
-    this._turnHandler = null;
+    this.setTurnManagement("turnHandler", undefined);
   }
 
   public cleanup(): void {
@@ -84,11 +92,7 @@ export default class GameTurn
     this.clearTurnHandler();
   }
 
-  protected getCurrentTurn(): number {
-    return this._turnCurrentPlayer?.turnCount ?? 0;
-  }
-
   protected isPlayerTurn(): boolean {
-    return this._turnCurrentPlayer?.id === 0;
+    return this._turnManagement.turnCurrentPlayer?.id === 0;
   }
 }

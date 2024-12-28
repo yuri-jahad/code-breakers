@@ -1,8 +1,8 @@
 import type { PuzzleType } from "@/types/data-type";
 import type { ModesNames } from "@/types/game/modes";
 import type { GameTurnInterface } from "@/types/game/turn";
-import type { SoundController } from './sound';
-import { ProfileStats } from '@/types/profile/type';
+import type { SoundController } from "./sound";
+import { ProfileStats } from "@/types/profile/type";
 
 export type GameState = "inactive" | "start" | "waiting" | "game" | "end";
 
@@ -29,17 +29,10 @@ export interface GameInterface extends GameTurnInterface {
   set setCurrentPlayer(player: ProfileStats | null);
 
   get getPlayerDeath(): ProfileStats[];
-  set setPlayerDeath(players: ProfileStats[]);
-
-  get turnTimeCompare(): number | null;
-  turnTimeCompare: number | null;
-
+  set setPlayerDeath(players: ProfileStats[])
   currentPlayerIndex: number;
   set setCurrentPlayerIndex(index: number);
   get getCurrentPlayerIndex(): number;
 
   getPlayers: ProfileStats[];
 }
-
-
-

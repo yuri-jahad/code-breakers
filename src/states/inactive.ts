@@ -1,7 +1,7 @@
 import { pageLoaderInstance as page } from "@/page-loader";
 import type { GameInterface } from "@/types/game/game";
 import { STATE } from "@/types/state/state";
-import { modesConfig } from "@/utils/modes-config";
+import gameSettings from "@/utils/game-settings";
 
 export default function inactive(game: GameInterface) {
   page.makeText(
@@ -14,6 +14,5 @@ export default function inactive(game: GameInterface) {
   );
   game.state = STATE.INACTIVE;
 
-  //hideGame();
-  modesConfig(game);
+  gameSettings(game);
 }
