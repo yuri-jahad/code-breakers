@@ -1,15 +1,15 @@
 import type { GameInterface, GameState } from "@/types/game/game";
-import type { PuzzleType } from "@/types/data-type";
-import type { ProfileStats } from "@/types/profile/type";
+import type { PuzzleType } from "@/types/game/data";
+import type { ProfileStats } from "@/types/game/profile-stats";
 import type { ModesNames } from "@/types/game/modes";
 import type { SoundController } from "@/types/game/sound";
-import Turn from "@/core/game/turn";
+import Turn from "@/core/game/turn-management";
 import { IntervalType } from "@/types/game/turn";
-import { GameFactory, GameFactoryInterface } from "@/modes/factory";
+import { GameFactory, GameFactoryInterface } from "@/core/game/modes/factory";
 import GameSound from "../sound/game";
 import { circle } from "@/utils/circle";
-import playerView from "@/features/player/display";
-import { pageLoaderInstance as page } from "@/page-loader";
+import playerView from "@/features/game/player/display/display";
+import { pageLoaderInstance as page } from "@/router/page-loader";
 
 export class Game extends Turn implements GameInterface {
   state: GameState;
@@ -30,7 +30,7 @@ export class Game extends Turn implements GameInterface {
 
   constructor(gameFactory: GameFactoryInterface) {
     super();
-    this.state = "inactive";
+    this.state = "Inactive";
     this._players = [];
     this.playerDeath = [];
     this.currentPlayer = null;
@@ -93,7 +93,7 @@ export class Game extends Turn implements GameInterface {
 
   nextTurnPlayer(): void {
     this.clearInterval(IntervalType.PLAYER_TURN);
-
+   // this.gameSound.playSound("selfTurn", 0.1)
     const currentIndex = this._players.findIndex(
       (p) => p.id === this.currentPlayer?.id
     );

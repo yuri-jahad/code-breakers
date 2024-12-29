@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 /* Base styles */
 li {
   @apply cursor-pointer px-4 py-2;
@@ -12,6 +13,7 @@ li {
 :root {
   color-scheme: light dark;
 }
+
 
 @keyframes pulse {
   0% { opacity: 0.5; }
@@ -56,3 +58,4 @@ button, input, select {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(139, 92, 246, 0.5);
 }
+

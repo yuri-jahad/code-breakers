@@ -1,10 +1,10 @@
-import type { PuzzleType } from "@/types/data-type";
+import type { PuzzleType } from "@/types/game/data";
 import type { ModesNames } from "@/types/game/modes";
 import type { GameTurnInterface } from "@/types/game/turn";
 import type { SoundController } from "./sound";
-import { ProfileStats } from "@/types/profile/type";
+import { ProfileStats } from "@/types/game/profile-stats";
 
-export type GameState = "inactive" | "start" | "waiting" | "game" | "end";
+export type GameState = "Inactive" | "Start" | "Waiting" | "Game" | "End";
 
 export interface GameInterface extends GameTurnInterface {
   puzzleGenerate: (() => PuzzleType | null) | null;

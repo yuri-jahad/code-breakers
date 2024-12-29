@@ -1,7 +1,7 @@
-import { TurnManagementKeys, TurnManagementValues } from "@/core/game/turn";
+import { TurnManagementKeys, TurnManagementValues } from "@/core/game/turn-management";
 
 import { GameParamsWithOperations } from "@/core/game/parameters";
-import { ProfileStats } from "@/types/profile/type";
+import { ProfileStats } from "@/types/game/profile-stats";
 export type IntervalId = number | null;
 export type TurnHandler = {
   (): number;

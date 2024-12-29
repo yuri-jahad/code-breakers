@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+import defaultTheme from 'tailwindcss/defaultTheme'
+
 export default {
     darkMode: 'class',
     content: ["./public/**/*.html", "./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Alessia', ...defaultTheme.fontFamily.sans],
+            },
             animation: {
                 gradient: 'gradient 30s ease infinite',
             },

@@ -1,7 +1,7 @@
 import "@/index.css";
-import { pageLoaderInstance } from "@/page-loader";
-import data from "@/data/loader/loader-data";
-import sidebarSwitchSettings from "@/features/sidebar/switch-settings";
+import { pageLoaderInstance } from "@/router/page-loader";
+import data from "@/core/loader/data";
+import sidebarSwitchSettings from "@/features/sidebar/settings/logic/switch-settings";
 
 await pageLoaderInstance.initialize();
 

@@ -1,4 +1,4 @@
-import type { FindEntityType } from "@/types/data-type";
+import type { FindEntityType } from "@/types/game/data";
 
 export interface GameMode<T> {
   generate: () => T | null;
