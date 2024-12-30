@@ -10,7 +10,9 @@ export default class GameSound implements SoundController {
 			puzzleHeartWin: new Audio("/public/sounds/heart-win.wav"),
 			puzzleHeartFailed: new Audio("/public/sounds/heart-failed.mp3"),
 			gameJoined: new Audio("/public/sounds/joined.mp3"),
-			selfTurn:new Audio("/public/sounds/self-turn.wav")
+			selfTurn:new Audio("/public/sounds/self-turn.wav"),
+			countdown: new Audio("/public/sounds/countdown.mp3"),
+			countend:new Audio("/public/sounds/countend.mp3")
 		};
 	}
 

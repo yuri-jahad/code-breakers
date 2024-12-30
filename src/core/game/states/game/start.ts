@@ -1,7 +1,7 @@
 import { STATE } from "@/types/game/states";
 import { qs, makeText } from "@/router/page-loader";
 import { getGameInstance } from "@/core/game/get-instance";
-import displayStateStart from "@/features/game/state/display/start";
+import displayStateStart from "@/features/game/states/start/display/display";
 
 export default function start() {
   const gameInstance = getGameInstance();

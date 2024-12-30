@@ -7,7 +7,7 @@ export const PAGES_ROUTE: PagesType = {
 		template: "/pages/game.html",
 		modules: {
 			main: async () => {
-				const module = await import("@/core/game/state/game/init");
+				const module = await import("@/core/game/states/game/central");
 				return module;
 			},
 		},

@@ -30,6 +30,8 @@ export const selectors = {
     startGameAction: { selector: "#start-game-action" },
     gameCurrentState: { selector: "#game-current-state" },
     activePlayers: { selector: "#active-players" },
+    loadingWaiting:{selector:"#loading-waiting"},
+    gameSpace: {selector:"#game-space"},
     playersSpace: { selector: "#players-space" },
     players: { selector: "#players" },
     currentPuzzle: { selector: "#current-puzzle" },

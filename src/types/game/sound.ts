@@ -4,7 +4,9 @@ export type SoundEffectType =
   | "puzzleFailed"
   | "gameJoined"
   | "puzzleHeartWin"
-  | "puzzleHeartFailed";
+  | "puzzleHeartFailed"
+  | "countend"
+  | "countdown";
 export type SoundCollection = Record<SoundEffectType, HTMLAudioElement>;
 export interface SoundController {
   playSound: (effect: SoundEffectType, volume?: number) => void;

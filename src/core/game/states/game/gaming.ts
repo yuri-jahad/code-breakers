@@ -3,16 +3,16 @@ import CircleManager from "@/utils/draw-circle";
 import type { ProfileStats } from "@/types/game/profile-stats";
 import { displayTypingSpeed } from "@/features/game/speed/display/display";
 import { IntervalType } from "@/types/game/turn";
-import stateEnd from "@/core/game/state/game/end";
+import stateEnd from "@/core/game/states/game/end";
 import { animateTextTyping } from "@/utils/animation-text-typing";
 import { pageLoaderInstance as page, qs } from "@/router/page-loader";
 import { GameInterface } from "@/types/game/game";
 import { displayScore } from "@/features/game/score/display/words";
-import { isGameWin } from "@/features/game/state/display/win";
+import { isGameWin } from "@/features/game/states/win/display/display";
 import { removeLife } from "@/features/game/heart/logic/delete";
 import { updateScore } from "@/features/game/score/logic/update";
 import getPlayerElements from "@/features/game/player/logic/get-elements";
-import setupGaming from "./setup";
+import setupGaming from "./setup-gaming";
 
 class TurnManager {
   private gameInstance: GameInterface;

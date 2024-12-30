@@ -1,7 +1,7 @@
 import { STATE } from "@/types/game/states";
 import { qs, makeText, setStyle } from "@/router/page-loader";
-import { addPlayers } from "../../player/logic/add";
 import { getGameInstance } from "@/core/game/get-instance";
+import { addPlayers } from "@/features/game/player/logic/add";
 
 export default function displayStateStart() {
   // on additionne les joueurs aux bots, donc +1 (joueur 😊)

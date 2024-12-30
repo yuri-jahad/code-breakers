@@ -1,9 +1,11 @@
+import ParticleSystem from "@/features/game/states/waiting/loading/logic/loading";
 import { pageLoaderInstance as page } from "@/router/page-loader";
 import type { GameInterface } from "@/types/game/game";
 import { STATE } from "@/types/game/states";
 import gameSettings from "@/utils/settings-game";
 
 export default function inactive(game: GameInterface) {
+  ParticleSystem.init()
   page.makeText(
     page.qs("game.gameCurrentState") as HTMLElement,
     STATE.INACTIVE

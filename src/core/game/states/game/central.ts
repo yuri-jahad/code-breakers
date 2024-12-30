@@ -1,17 +1,19 @@
 import { qs, makeText } from "@/router/page-loader";
 import { IntervalId, IntervalType } from "@/types/game/turn";
-import stateInactive from "@/core/game/state/game/inactive";
-import stateStart from "@/core/game/state/game/start";
-import stateWaiting from "@/core/game/state/game/waiting";
-import stateGame from "@/core/game/state/game/gaming";
-import stateEnd from "@/core/game/state/game/end";
+import stateInactive from "@/core/game/states/game/inactive";
+import stateStart from "@/core/game/states/game/start";
+import stateWaiting from "@/core/game/states/game/waiting";
+import stateGame from "@/core/game/states/game/gaming";
+import stateEnd from "@/core/game/states/game/end";
 import { STATE } from "@/types/game/states";
 import handleUserRegistration from "@/core/user/authentification/register";
 import getPlayerElements from "@/features/game/player/logic/get-elements";
-import { getGameInstance } from "../../get-instance";
+import { getGameInstance } from "@/core/game/get-instance";
+import ParticleSystem from "@/features/game/states/waiting/loading/logic/loading";
 
 export default async function initGame() {
   const gameInstance = getGameInstance();
+  window.setInterval(() => console.log(gameInstance.state), 3000)
   stateInactive(gameInstance);
   await handleUserRegistration();
   (qs("game.startGameAction") as HTMLElement).addEventListener(
@@ -28,6 +30,8 @@ export default async function initGame() {
           IntervalType.WAIT_STATE,
           (await stateWaiting()) as IntervalId
         );
+        ParticleSystem.stop();
+        ParticleSystem.clear();
         stateStart();
         stateGame();
       } else if (gameInstance.state === STATE.GAME) {

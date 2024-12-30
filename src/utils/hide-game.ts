@@ -1,4 +1,4 @@
-import { hideGame } from "@/features/game/state/display/end";
+import { hideGame } from "@/features/game/states/end/display/end";
 import { GameInterface } from "@/types/game/game";
 
 
