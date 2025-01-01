@@ -5,14 +5,16 @@ export default class GameSound implements SoundController {
 
 	constructor() {
 		this.sounds = {
-			puzzleSolved: new Audio("/public/sounds/solved.wav"),
-			puzzleFailed: new Audio("/public/sounds/failed.wav"),
-			puzzleHeartWin: new Audio("/public/sounds/heart-win.wav"),
-			puzzleHeartFailed: new Audio("/public/sounds/heart-failed.mp3"),
-			gameJoined: new Audio("/public/sounds/joined.mp3"),
-			selfTurn:new Audio("/public/sounds/self-turn.wav"),
-			countdown: new Audio("/public/sounds/countdown.mp3"),
-			countend:new Audio("/public/sounds/countend.mp3")
+			puzzleSolved: new Audio("/public/sounds/game/solved.wav"),
+			puzzleFailed: new Audio("/public/sounds/game/failed.wav"),
+			puzzleHeartWin: new Audio("/public/sounds/game/heart-win.wav"),
+			puzzleHeartFailed: new Audio("/public/sounds/game/heart-failed.mp3"),
+			gameJoined: new Audio("/public/sounds/game/joined.mp3"),
+			gameOut: new Audio("public/sounds/game/out.mp3"),
+			selfTurn:new Audio("/public/sounds/game/self-turn.wav"),
+			countdown: new Audio("/public/sounds/game/countdown.mp3"),
+			milestone: new Audio("/public/sounds/game/milestone.mp3"),
+			notif: new Audio("public/sounds/chat/notif.mp3")
 		};
 	}
 

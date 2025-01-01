@@ -1,12 +1,15 @@
 export type SoundEffectType =
   | "puzzleSolved"
-  | "selfTurn"
   | "puzzleFailed"
-  | "gameJoined"
   | "puzzleHeartWin"
   | "puzzleHeartFailed"
-  | "countend"
-  | "countdown";
+  | "gameJoined"
+  | "gameOut"
+  | "selfTurn"
+  | "milestone"
+  | "countdown"
+  | "notif";
+
 export type SoundCollection = Record<SoundEffectType, HTMLAudioElement>;
 export interface SoundController {
   playSound: (effect: SoundEffectType, volume?: number) => void;
